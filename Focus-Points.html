@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Monthly Focus Points</title>
+    <style>
+        /* Basic Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fc;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        header nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        header nav ul li {
+            display: inline;
+            margin-right: 15px;
+        }
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Container */
+        .container {
+            padding: 20px;
+        }
+
+        /* Section Styles */
+        section {
+            margin-bottom: 30px;
+        }
+
+        section h2 {
+            background-color: #e8f0fe;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 20px;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            display: inline-block;
+            height: 20px;
+            background-color: #76c7c0;
+            text-align: center;
+            color: white;
+            line-height: 20px;
+            border-radius: 5px;
+            width: 0;
+        }
+
+        /* Branch Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .on-track {
+            background-color: #76c7c0;
+            color: white;
+        }
+
+        .at-risk {
+            background-color: #f6b93b;
+            color: white;
+        }
+
+        .off-track {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        /* Employee Table */
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .top-performer {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .good-performer {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .needs-improvement {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        /* Task List */
+        ul {
+            padding-left: 20px;
+        }
+        ul li {
+            margin: 10px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+        }
+
+    </style>
+    <script>
+        // Dynamic Update Script
+        function updateProgressBars() {
+            const progressData = {
+                'Revenue Target': 70,
+                'Customer Satisfaction': 50,
+                'Service Launch': 80,
+                'Branch 1 Revenue': 85,
+                'Branch 2 Revenue': 60,
+                'Branch 3 Revenue': 75
+            };
+
+            document.querySelectorAll('.progress-bar').forEach(function (bar, index) {
+                const progressKey = bar.dataset.progressKey;
+                if (progressData[progressKey] !== undefined) {
+                    bar.style.width = progressData[progressKey] + '%';
+                    bar.textContent = progressData[progressKey] + '%';
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            updateProgressBars();
+        });
+    </script>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Company Admin Panel</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Reports</a></li>
+                <li><a href="#">Employees</a></li>
+                <li><a href="#">Settings</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+
+            <!-- Company Goals Visibility Section -->
+            <section class="goals">
+                <h2>Company Goals - This Month</h2>
+                <div class="goal">
+                    <h3>Revenue Target</h3>
+                    <p>Progress: <span class="progress-bar" style="width: 0;" data-progress-key="Revenue Target">0%</span></p>
+                </div>
+                <div class="goal">
+                    <h3>Customer Satisfaction</h3>
+                    <p>Progress: <span class="progress-bar" style="width: 0;" data-progress-key="Customer Satisfaction">0%</span></p>
+                </div>
+                <div class="goal">
+                    <h3>Service Launch</h3>
+                    <p>Progress: <span class="progress-bar" style="width: 0;" data-progress-key="Service Launch">0%</span></p>
+                </div>
+            </section>
+
+            <!-- Progress Tracking Across All Locations Section -->
+            <section class="branches">
+                <h2>Progress Across All Locations</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Branch</th>
+                            <th>Revenue</th>
+                            <th>Customer Satisfaction</th>
+                            <th>Performance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Branch 1</td>
+                            <td>$20,000</td>
+                            <td>80%</td>
+                            <td class="on-track">On Track</td>
+                        </tr>
+                        <tr>
+                            <td>Branch 2</td>
+                            <td>$15,000</td>
+                            <td>75%</td>
+                            <td class="at-risk">At Risk</td>
+                        </tr>
+                        <tr>
+                            <td>Branch 3</td>
+                            <td>$18,000</td>
+                            <td>90%</td>
+                            <td class="on-track">On Track</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Monthly Focus Points Section -->
+            <section class="focus-points">
+                <h2>Monthly Focus Points</h2>
+                <ul>
+                    <li><strong>Marketing Campaign:</strong> Focus on social media ads.</li>
+                    <li><strong>Employee Training:</strong> Focus on customer service skills.</li>
+                    <li><strong>New Service Rollout:</strong> Launch new product in all branches.</li>
+                </ul>
+            </section>
+
+            <!-- Employee Performance & Tracking Section -->
+            <section class="employee-performance">
+                <h2>Employee Performance</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>Services Completed</th>
+                            <th>Customer Feedback</th>
+                            <th>Performance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>John Doe</td>
+                            <td>250</td>
+                            <td>4.8/5</td>
+                            <td class="top-performer">Top Performer</td>
+                        </tr>
+                        <tr>
+                            <td>Jane Smith</td>
+                            <td>200</td>
+                            <td>4.6/5</td>
+                            <td class="good-performer">Good Performer</td>
+                        </tr>
+                        <tr>
+                            <td>Mark Lee</td>
+                            <td>150</td>
+                            <td>4.2/5</td>
+                            <td class="needs-improvement">Needs Improvement</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Actionable Tasks & Reminders Section -->
+            <section class="tasks">
+                <h2>Tasks & Reminders</h2>
+                <ul>
+                    <li><strong>Task 1:</strong> Complete team meeting (Due by 31-Jan-2025).</li>
+                    <li><strong>Task 2:</strong> Review marketing campaign results (Due by 28-Jan-2025).</li>
+                    <li><strong>Task 3:</strong> Employee training on new services (Due by 30-Jan-2025).</li>
+                </ul>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Company Name</p>
+    </footer>
+
+</body>
+</html>

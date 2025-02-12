@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar with Events</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #f4f4f9;
+        }
+
+        .sidebar {
+            width: 300px;
+            background: #34495e;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .sidebar .alerts {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar .alerts li {
+            background: #2c3e50;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar .alerts li .icon {
+            background: #e74c3c;
+            padding: 8px;
+            border-radius: 50%;
+            color: white;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar .alerts li .text {
+            flex-grow: 1;
+            margin-left: 10px;
+        }
+
+        .main-container {
+            flex-grow: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-header h1 {
+            font-size: 24px;
+            color: #34495e;
+        }
+
+        .calendar-header select {
+            padding: 5px 10px;
+            font-size: 16px;
+        }
+
+        .calendar-header button {
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+
+        .calendar-day {
+            background: #ecf0f1;
+            text-align: center;
+            padding: 15px;
+            border-radius: 5px;
+            position: relative;
+            color: #34495e;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .calendar-day.no-event {
+            cursor: default;
+        }
+
+        .calendar-day.today {
+            background: #3498db;
+            color: white;
+        }
+
+        .calendar-day .reminder {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #e74c3c;
+            color: white;
+            font-size: 12px;
+            padding: 3px 6px;
+            border-radius: 50%;
+        }
+
+        .calendar-day:hover {
+            background: #2980b9;
+            color: white;
+        }
+
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            z-index: 1001;
+        }
+
+        .popup.active,
+        .popup-overlay.active {
+            display: block;
+        }
+
+        .popup h2 {
+            margin-bottom: 15px;
+            color: #34495e;
+        }
+
+        .popup .event-details {
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #2c3e50;
+        }
+
+        .popup .buttons {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .popup .buttons button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .popup .buttons .share-btn {
+            background: #3498db;
+            color: white;
+        }
+
+        .popup .buttons .close-btn {
+            background: #e74c3c;
+            color: white;
+        }
+
+        #shared-event-section {
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Important Alerts</h2>
+    <ul class="alerts">
+        <li>
+            <div class="icon"><i class="fas fa-bell"></i></div>
+            <div class="text">
+                <strong>Team Meeting</strong><br>
+                <small>Jan 10, 10:00 AM</small>
+            </div>
+        </li>
+        <li>
+            <div class="icon"><i class="fas fa-bell"></i></div>
+            <div class="text">
+                <strong>Project Deadline</strong><br>
+                <small>Jan 15, EOD</small>
+            </div>
+        </li>
+        <li>
+            <div class="icon"><i class="fas fa-bell"></i></div>
+            <div class="text">
+                <strong>Maintenance</strong><br>
+                <small>Jan 20, 12:00 PM</small>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div class="main-container">
+    <div class="calendar-header">
+        <h1>Calendar View</h1>
+        <div>
+            <select>
+                <option selected>January 2025</option>
+                <option>February 2025</option>
+                <option>March 2025</option>
+            </select>
+            <button onclick="showAddNewPopup()">Add New</button>
+        </div>
+    </div>
+
+    <div class="calendar-grid">
+        <!-- Calendar days with sample events -->
+        <div class="calendar-day no-event">1</div>
+        <div class="calendar-day no-event">2</div>
+        <div class="calendar-day no-event">3</div>
+        <div class="calendar-day no-event">4</div>
+        <div class="calendar-day no-event">5</div>
+        <div class="calendar-day no-event">6</div>
+        <div class="calendar-day no-event">7</div>
+        <div class="calendar-day no-event">8</div>
+        <div class="calendar-day no-event">9</div>
+        <div class="calendar-day" id="day-10" onclick="showPopup(10)">
+            10 <span class="reminder">1</span>
+        </div>
+        <div class="calendar-day no-event">11</div>
+        <div class="calendar-day no-event">12</div>
+        <div class="calendar-day no-event">13</div>
+        <div class="calendar-day" id="day-14" onclick="showPopup(14)">
+            14 <span class="reminder">2</span>
+        </div>
+        <div class="calendar-day no-event">15</div>
+        <div class="calendar-day no-event">16</div>
+        <div class="calendar-day" id="day-17" onclick="showPopup(17)">
+            17 <span class="reminder">1</span>
+        </div>
+        <div class="calendar-day no-event">18</div>
+        <div class="calendar-day no-event">19</div>
+        <div class="calendar-day no-event">20</div>
+        <div class="calendar-day no-event">21</div>
+        <div class="calendar-day no-event">22</div>
+        <div class="calendar-day no-event">23</div>
+        <div class="calendar-day no-event">24</div>
+        <div class="calendar-day no-event">25</div>
+        <div class="calendar-day no-event">26</div>
+        <div class="calendar-day no-event">27</div>
+        <div class="calendar-day no-event">28</div>
+        <div class="calendar-day no-event">29</div>
+        <div class="calendar-day no-event">30</div>
+        <div class="calendar-day no-event">31</div>
+    </div>
+</div>
+
+<!-- Add New Popup -->
+<div class="popup-overlay" id="add-new-popup-overlay"></div>
+<div class="popup" id="add-new-popup">
+    <h2>Add New Event</h2>
+    <form id="add-new-event-form">
+        <label for="event-title">Title:</label><br>
+        <input type="text" id="event-title" placeholder="Event Title" required style="width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ddd;"><br>
+
+        <label for="event-date">Date:</label><br>
+        <input type="date" id="event-date" required style="width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ddd;"><br>
+
+        <label for="event-time">Time:</label><br>
+        <input type="time" id="event-time" style="width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ddd;"><br>
+
+        <label>Event Type:</label><br>
+        <input type="radio" id="personal-event" name="event-type" value="Personal" checked onclick="toggleSharedEventField()">
+        <label for="personal-event">Personal</label><br>
+        <input type="radio" id="shared-event" name="event-type" value="Shared" onclick="toggleSharedEventField()">
+        <label for="shared-event">Shared</label><br>
+
+        <div id="shared-event-section" style="display: none;">
+            <label for="shared-with">Share With:</label><br>
+            <input type="text" id="shared-with" placeholder="Enter email or usernames" style="width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ddd;"><br>
+        </div>
+
+        <label for="event-description">Description:</label><br>
+        <textarea id="event-description" placeholder="Event Details" style="width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ddd;"></textarea><br>
+
+        <div class="buttons">
+            <button type="button" onclick="saveEvent()" class="share-btn">Save</button>
+            <button type="button" onclick="closeAddNewPopup()" class="close-btn">Cancel</button>
+        </div>
+    </form>
+</div>
+
+<!-- Event Details Popup -->
+<div class="popup-overlay" id="popup-overlay"></div>
+<div class="popup" id="popup">
+    <h2>Event Details</h2>
+    <div class="event-details" id="event-details"></div>
+    <div class="buttons">
+        <button onclick="shareEvent()" class="share-btn">Share</button>
+        <button onclick="closePopup()" class="close-btn">Close</button>
+    </div>
+</div>
+
+<script>
+    let events = [
+        { day: 10, title: "Team Meeting", date: "2025-01-10", time: "10:00", description: "Team meeting to discuss project status", type: "Personal", sharedWith: "" },
+        { day: 14, title: "Project Deadline", date: "2025-01-15", time: "EOD", description: "Final project deadline", type: "Personal", sharedWith: "" },
+        { day: 17, title: "Maintenance", date: "2025-01-20", time: "12:00", description: "Scheduled system maintenance", type: "Shared", sharedWith: "user@example.com" }
+    ];
+
+    function toggleSharedEventField() {
+        const sharedEventSection = document.getElementById("shared-event-section");
+        const isShared = document.getElementById("shared-event").checked;
+        sharedEventSection.style.display = isShared ? "block" : "none";
+    }
+
+    function showAddNewPopup() {
+        document.getElementById('add-new-popup-overlay').classList.add('active');
+        document.getElementById('add-new-popup').classList.add('active');
+    }
+
+    function closeAddNewPopup() {
+        document.getElementById('add-new-popup-overlay').classList.remove('active');
+        document.getElementById('add-new-popup').classList.remove('active');
+    }
+
+    function populateEvents() {
+        const calendarDays = document.querySelectorAll('.calendar-day');
+        events.forEach(event => {
+            const eventDay = document.getElementById(`day-${event.day}`);
+            if (eventDay) {
+                eventDay.classList.remove('no-event');
+                eventDay.innerHTML = `${event.day} <span class="reminder">${event.title ? '1' : ''}</span>`;
+            }
+        });
+    }
+
+    function showPopup(day) {
+        const event = events.find(e => e.day === day);
+        const eventDetails = document.getElementById("event-details");
+        eventDetails.innerHTML = `
+            <strong>${event.title}</strong><br>
+            <strong>Date:</strong> ${event.date}<br>
+            <strong>Time:</strong> ${event.time}<br>
+            <strong>Description:</strong> ${event.description}<br>
+            <strong>Type:</strong> ${event.type}<br>
+            ${event.type === 'Shared' ? `<strong>Shared With:</strong> ${event.sharedWith}` : ''}
+        `;
+        document.getElementById('popup-overlay').classList.add('active');
+        document.getElementById('popup').classList.add('active');
+    }
+
+    function closePopup() {
+        document.getElementById('popup-overlay').classList.remove('active');
+        document.getElementById('popup').classList.remove('active');
+    }
+
+    function saveEvent() {
+        const title = document.getElementById('event-title').value;
+        const date = document.getElementById('event-date').value;
+        const time = document.getElementById('event-time').value;
+        const description = document.getElementById('event-description').value;
+        const eventType = document.querySelector('input[name="event-type"]:checked').value;
+        const sharedWith = document.getElementById('shared-with').value;
+
+        if (title && date && description) {
+            events.push({
+                day: new Date(date).getDate(),
+                title,
+                date,
+                time,
+                description,
+                type: eventType,
+                sharedWith
+            });
+
+            populateEvents();
+            closeAddNewPopup();
+        }
+    }
+
+    function shareEvent() {
+        alert("Event shared!");
+    }
+
+    populateEvents();
+</script>
+
+</body>
+</html>

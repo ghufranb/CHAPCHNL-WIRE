@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Communications Hub</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom styles */
+        .container {
+            margin-top: 20px;
+        }
+        .nav-tabs {
+            margin-bottom: 20px;
+        }
+        .message-box {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+        .message-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Communications Hub</h2>
+    <ul class="nav nav-tabs" id="hubTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="notice-board-tab" data-toggle="tab" href="#notice-board" role="tab" aria-controls="notice-board" aria-selected="true">Notice Board</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="group-messaging-tab" data-toggle="tab" href="#group-messaging" role="tab" aria-controls="group-messaging" aria-selected="false">Group Messaging</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="individual-messaging-tab" data-toggle="tab" href="#individual-messaging" role="tab" aria-controls="individual-messaging" aria-selected="false">Individual Messaging</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="hubTabsContent">
+        <!-- Notice Board -->
+        <div class="tab-pane fade show active" id="notice-board" role="tabpanel" aria-labelledby="notice-board-tab">
+            <h4>Latest Announcements</h4>
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action">
+                    <h5 class="mb-1">Notice Title 1</h5>
+                    <p class="mb-1">Brief description of the notice...</p>
+                    <small>Posted on January 23, 2025</small>
+                </a>
+                <!-- Add more notices here -->
+            </div>
+        </div>
+        <!-- Group Messaging -->
+        <div class="tab-pane fade" id="group-messaging" role="tabpanel" aria-labelledby="group-messaging-tab">
+            <h4>Group Chat</h4>
+            <div class="message-box" id="groupMessages">
+                <!-- Messages will appear here -->
+            </div>
+            <input type="text" id="groupMessageInput" class="message-input" placeholder="Type a message...">
+        </div>
+        <!-- Individual Messaging -->
+        <div class="tab-pane fade" id="individual-messaging" role="tabpanel" aria-labelledby="individual-messaging-tab">
+            <h4>Individual Chat</h4>
+            <div class="message-box" id="individualMessages">
+                <!-- Messages will appear here -->
+            </div>
+            <input type="text" id="individualMessageInput" class="message-input" placeholder="Type a message...">
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    // JavaScript to handle message sending
+    document.getElementById('groupMessageInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && this.value.trim() !== '') {
+            const message = this.value.trim();
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('p-2', 'border-bottom');
+            messageElement.textContent = message;
+            document.getElementById('groupMessages').appendChild(messageElement);
+            this.value = '';
+            this.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
+    });
+
+    document.getElementById('individualMessageInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && this.value.trim() !== '') {
+            const message = this.value.trim();
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('p-2', 'border-bottom');
+            messageElement.textContent = message;
+            document.getElementById('individualMessages').appendChild(messageElement);
+            this.value = '';
+            this.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
+    });
+</script>
+
+</body>
+</html>

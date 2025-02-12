@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Sales Reports - Barber Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .box {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        h1 {
+            text-align: center;
+            grid-column: span 2;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table th, table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        table th {
+            background-color: #f4f4f4;
+        }
+        .low-stock {
+            color: red;
+            font-weight: bold;
+        }
+        .export-button {
+            grid-column: span 2;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .export-button button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Product Sales Reports</h1>
+        <div class="box">
+            <h2>Monthly Performance</h2>
+            <table>
+                <thead>
+                    <tr><th>Month</th><th>Total Sales</th><th>Growth Rate</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>January</td><td>$180,000</td><td>+8%</td></tr>
+                    <tr><td>February</td><td>$190,500</td><td>+6%</td></tr>
+                    <tr><td>March</td><td>$200,000</td><td>+5%</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="box">
+            <h2>Daily Sales Rankings</h2>
+            <table>
+                <thead>
+                    <tr><th>Rank</th><th>Product</th><th>Units Sold</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Electric Hair Trimmer</td><td>50</td></tr>
+                    <tr><td>2</td><td>Professional Hair Clipper</td><td>45</td></tr>
+                    <tr><td>3</td><td>Deluxe Shaving Kit</td><td>30</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="box">
+            <h2>Product Stock Levels</h2>
+            <table>
+                <thead>
+                    <tr><th>Product</th><th>Total Stock</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Electric Hair Trimmer</td><td>500</td></tr>
+                    <tr><td>Professional Hair Clipper</td><td>300</td></tr>
+                    <tr><td>Deluxe Shaving Kit</td><td>100 <span class="low-stock">Low Stock</span></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="box">
+            <h2>Individual Sales Performance</h2>
+            <table>
+                <thead>
+                    <tr><th>Employee</th><th>Units Sold</th><th>Revenue</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>John Doe</td><td>120</td><td>$24,000</td></tr>
+                    <tr><td>Jane Smith</td><td>90</td><td>$18,000</td></tr>
+                    <tr><td>Chris Johnson</td><td>80</td><td>$16,000</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="box">
+            <h2>Team Sales Performance</h2>
+            <table>
+                <thead>
+                    <tr><th>Shop Team</th><th>Total Sales</th><th>Units Sold</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Downtown Barbers</td><td>$75,000</td><td>400</td></tr>
+                    <tr><td>Uptown Styles</td><td>$60,000</td><td>320</td></tr>
+                    <tr><td>Suburban Cuts</td><td>$55,000</td><td>290</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="export-button">
+            <button onclick="exportCSV()">Export Report to CSV</button>
+        </div>
+    </div>
+    <script>
+        function exportCSV() {
+            let csvContent = "data:text/csv;charset=utf-8,";
+            let tables = document.querySelectorAll('table');
+            tables.forEach(table => {
+                let rows = table.querySelectorAll('tr');
+                rows.forEach(row => {
+                    let cells = row.querySelectorAll('th, td');
+                    let rowData = Array.from(cells).map(cell => cell.textContent.replace(/,/g, ''));
+                    csvContent += rowData.join(',') + "\n";
+                });
+                csvContent += "\n";
+            });
+            let encodedUri = encodeURI(csvContent);
+            let link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "sales_report.csv");
+            document.body.appendChild(link);
+            link.click();
+        }
+    </script>
+</body>
+</html>

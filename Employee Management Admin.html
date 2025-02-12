@@ -1,0 +1,42 @@
+import React from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+export default function AdminEmployeeManagement() {
+  return (
+    <div className="p-6 grid grid-cols-3 gap-4">
+      {/* Admin Employee Management */}
+      <Card className="col-span-3 p-4">
+        <h2 className="text-xl font-bold">Admin Employee Management</h2>
+        <Button className="mt-2">Manage Employees</Button>
+        <Card className="mt-4 p-4">
+          <h3 className="text-lg font-semibold">Employee Profiles</h3>
+          <p>Centralized records with visa progress tracking, document uploads</p>
+        </Card>
+        <Card className="mt-4 p-4">
+          <h3 className="text-lg font-semibold">Role-Based Access</h3>
+          <p>Permissions for admin, therapists, receptionists, and barbers</p>
+        </Card>
+        <Card className="mt-4 p-4">
+          <h3 className="text-lg font-semibold">Leave Tracker</h3>
+          <p>Apply, approve, and track leave history</p>
+          <p>Records from joining date, includes public holidays</p>
+          <p>Adjust and amend leave applications with timestamped records</p>
+        </Card>
+        <Card className="mt-4 p-4">
+          <h3 className="text-lg font-semibold">Schedules</h3>
+          <p>Manage employee schedules for payroll and compliance</p>
+          <p>Includes working shifts, leave, public holidays</p>
+          <p>Export schedules for payroll processing</p>
+        </Card>
+        <Card className="mt-4 p-4">
+          <h3 className="text-lg font-semibold">Reports for Check in/outs</h3>
+          <ul>
+            <li>Lateness</li>
+            <li>Time check in / out stamps</li>
+          </ul>
+        </Card>
+      </Card>
+    </div>
+  );
+}

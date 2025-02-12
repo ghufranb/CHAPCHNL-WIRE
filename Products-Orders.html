@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Barber Equipment and Orders</title>
+    <style>
+        /* General Body Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .form-container h3 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Pagination Styles */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination button {
+            padding: 6px 12px;
+            margin: 5px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .pagination button.active {
+            background-color: #0056b3;
+        }
+
+        .pagination button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Search and Filter Styles */
+        .search-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .search-container input,
+        .search-container select,
+        .search-container input[type="range"] {
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .search-container button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 12px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .search-container button:hover {
+            background-color: #45a049;
+        }
+
+        /* Hidden Form */
+        .hidden {
+            display: none;
+        }
+
+        /* Form Styles */
+        .form-container input[type="text"],
+        .form-container input[type="number"],
+        .form-container input[type="file"],
+        .form-container select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        .form-container button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .form-container button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* Flexbox for Tables */
+        .table-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .table-container table {
+            margin-bottom: 0;
+        }
+
+        .table-container .search-container {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Admin - Barber Equipment and Orders</h2>
+
+    <!-- Orders Section -->
+    <div class="form-container">
+        <h3>Order Details</h3>
+
+        <!-- Search and Filter Section for Orders -->
+        <div class="search-container">
+            <input type="text" id="order-search" placeholder="Search by Order ID or Customer Name" oninput="searchOrders()">
+            <select id="order-status-filter" onchange="filterOrders()">
+                <option value="">Filter by Status</option>
+                <option value="Shipped">Shipped</option>
+                <option value="Pending">Pending</option>
+                <option value="Completed">Completed</option>
+            </select>
+        </div>
+
+        <table id="order-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer Name</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="order-table-body">
+                <!-- Example Order Rows -->
+            </tbody>
+        </table>
+        <div class="pagination" id="order-pagination"></div>
+    </div>
+
+    <!-- Products Section -->
+    <div class="form-container">
+        <h3>Existing Products</h3>
+
+        <!-- Search and Filter Section for Products -->
+        <div class="search-container">
+            <input type="text" id="product-search" placeholder="Search by Product Name" oninput="searchProducts()">
+            <select id="category-filter" onchange="filterProducts()">
+                <option value="">Filter by Category</option>
+                <option value="Clippers">Clippers</option>
+                <option value="Shampoo">Shampoo</option>
+                <option value="Razor">Razor</option>
+            </select>
+            <input type="range" id="price-filter" min="0" max="200" step="10" oninput="filterProducts()" />
+            <span id="price-range-label">Price: $0 - $200</span>
+            <button onclick="toggleProductForm()">Add Product</button>
+        </div>
+
+        <table id="product-table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="product-table-body">
+                <!-- Example Product Rows -->
+            </tbody>
+        </table>
+        <div class="pagination" id="product-pagination"></div>
+    </div>
+
+    <!-- Add Product Form (Initially Hidden) -->
+    <div class="form-container hidden" id="product-form-container">
+        <h3>Manage Barber Equipment/Products</h3>
+        <form id="product-form" action="#" method="post" enctype="multipart/form-data">
+            <label for="product-name">Product Name:</label>
+            <input type="text" id="product-name" name="product-name" required><br><br>
+            <label for="product-category">Category:</label>
+            <input type="text" id="product-category" name="product-category" required><br><br>
+            <label for="product-price">Price:</label>
+            <input type="number" id="product-price" name="product-price" required><br><br>
+            <label for="product-quantity">Quantity:</label>
+            <input type="number" id="product-quantity" name="product-quantity" required><br><br>
+            <label for="product-image">Product Image:</label>
+            <input type="file" id="product-image" name="product-image" accept="image/*"><br><br>
+            <button type="submit">Add Product</button>
+        </form>
+    </div>
+
+    <script>
+        const orders = [
+            { orderId: '#001', customerName: 'John Doe', product: 'Hair Clippers', quantity: 2, price: 100, status: 'Shipped' },
+            { orderId: '#002', customerName: 'Jane Smith', product: 'Razor', quantity: 1, price: 20, status: 'Pending' },
+            { orderId: '#003', customerName: 'Alice Johnson', product: 'Shampoo', quantity: 3, price: 45, status: 'Completed' },
+            { orderId: '#004', customerName: 'Bob Brown', product: 'Hair Clippers', quantity: 2, price: 100, status: 'Shipped' },
+            { orderId: '#005', customerName: 'Charlie Lee', product: 'Shampoo', quantity: 5, price: 75, status: 'Pending' },
+            { orderId: '#006', customerName: 'Diana Prince', product: 'Razor', quantity: 4, price: 80, status: 'Completed' },
+            { orderId: '#007', customerName: 'Eve White', product: 'Hair Clippers', quantity: 3, price: 150, status: 'Shipped' },
+            { orderId: '#008', customerName: 'Frank Black', product: 'Shampoo', quantity: 2, price: 30, status: 'Pending' },
+            { orderId: '#009', customerName: 'Grace Green', product: 'Razor', quantity: 1, price: 20, status: 'Shipped' },
+            { orderId: '#010', customerName: 'Hannah Blue', product: 'Hair Clippers', quantity: 3, price: 150, status: 'Completed' },
+        ];
+
+        const products = [
+            { name: 'Hair Clippers', category: 'Clippers', price: 50, quantity: 20 },
+            { name: 'Shampoo', category: 'Shampoo', price: 15, quantity: 50 },
+            { name: 'Razor', category: 'Razor', price: 10, quantity: 30 },
+            { name: 'Hair Clippers', category: 'Clippers', price: 60, quantity: 10 },
+            { name: 'Shampoo', category: 'Shampoo', price: 18, quantity: 40 },
+            { name: 'Razor', category: 'Razor', price: 12, quantity: 15 },
+            { name: 'Hair Clippers', category: 'Clippers', price: 70, quantity: 25 },
+            { name: 'Shampoo', category: 'Shampoo', price: 17, quantity: 60 },
+            { name: 'Razor', category: 'Razor', price: 8, quantity: 35 },
+            { name: 'Hair Clippers', category: 'Clippers', price: 55, quantity: 10 },
+        ];
+
+        let orderPage = 1;
+        let productPage = 1;
+        const ordersPerPage = 5;
+        const productsPerPage = 5;
+
+        let filteredOrders = [...orders];
+        let filteredProducts = [...products];
+
+        function renderOrders() {
+            const orderTableBody = document.getElementById('order-table-body');
+            const start = (orderPage - 1) * ordersPerPage;
+            const end = start + ordersPerPage;
+            const paginatedOrders = filteredOrders.slice(start, end);
+
+            orderTableBody.innerHTML = '';
+            paginatedOrders.forEach(order => {
+                const row = `<tr>
+                    <td>${order.orderId}</td>
+                    <td>${order.customerName}</td>
+                    <td>${order.product}</td>
+                    <td>${order.quantity}</td>
+                    <td>$${order.price}</td>
+                    <td><select>
+                        <option ${order.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                        <option ${order.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                        <option ${order.status === 'Completed' ? 'selected' : ''}>Completed</option>
+                    </select></td>
+                    <td><button>Cancel</button></td>
+                </tr>`;
+                orderTableBody.innerHTML += row;
+            });
+            renderPagination('order');
+        }
+
+        function renderProducts() {
+            const productTableBody = document.getElementById('product-table-body');
+            const start = (productPage - 1) * productsPerPage;
+            const end = start + productsPerPage;
+            const paginatedProducts = filteredProducts.slice(start, end);
+
+            productTableBody.innerHTML = '';
+            paginatedProducts.forEach(product => {
+                const row = `<tr>
+                    <td>${product.name}</td>
+                    <td>${product.category}</td>
+                    <td>$${product.price}</td>
+                    <td>${product.quantity}</td>
+                    <td><button>View Details</button></td>
+                </tr>`;
+                productTableBody.innerHTML += row;
+            });
+            renderPagination('product');
+        }
+
+        function renderPagination(type) {
+            const paginationContainer = document.getElementById(`${type}-pagination`);
+            const totalPages = type === 'order' ? Math.ceil(filteredOrders.length / ordersPerPage) : Math.ceil(filteredProducts.length / productsPerPage);
+            const currentPage = type === 'order' ? orderPage : productPage;
+            paginationContainer.innerHTML = '';
+
+            // First and Previous Buttons
+            paginationContainer.innerHTML += `<button class="first" onclick="goToPage(${type}, 1)">First</button>`;
+            paginationContainer.innerHTML += `<button onclick="goToPage(${type}, ${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>Prev</button>`;
+
+            // Page Numbers
+            for (let i = 1; i <= totalPages; i++) {
+                paginationContainer.innerHTML += `<button onclick="goToPage(${type}, ${i})" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
+            }
+
+            // Next and Last Buttons
+            paginationContainer.innerHTML += `<button onclick="goToPage(${type}, ${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>Next</button>`;
+            paginationContainer.innerHTML += `<button class="last" onclick="goToPage(${type}, ${totalPages})">Last</button>`;
+        }
+
+        function goToPage(type, page) {
+            if (type === 'order') {
+                orderPage = page;
+                renderOrders();
+            } else {
+                productPage = page;
+                renderProducts();
+            }
+        }
+
+        function toggleProductForm() {
+            const formContainer = document.getElementById('product-form-container');
+            formContainer.classList.toggle('hidden');
+        }
+
+        // Search functionality for Orders
+        function searchOrders() {
+            const searchTerm = document.getElementById('order-search').value.toLowerCase();
+            filteredOrders = orders.filter(order => 
+                order.orderId.toLowerCase().includes(searchTerm) || 
+                order.customerName.toLowerCase().includes(searchTerm)
+            );
+            orderPage = 1; // Reset to first page
+            renderOrders();
+        }
+
+        // Filter Orders by Status
+        function filterOrders() {
+            const selectedStatus = document.getElementById('order-status-filter').value;
+            filteredOrders = orders.filter(order => 
+                selectedStatus === '' || order.status === selectedStatus
+            );
+            orderPage = 1; // Reset to first page
+            renderOrders();
+        }
+
+        // Search functionality for Products
+        function searchProducts() {
+            const searchTerm = document.getElementById('product-search').value.toLowerCase();
+            filteredProducts = products.filter(product => 
+                product.name.toLowerCase().includes(searchTerm)
+            );
+            productPage = 1; // Reset to first page
+            renderProducts();
+        }
+
+        // Filter Products by Category
+        function filterProducts() {
+            const selectedCategory = document.getElementById('category-filter').value;
+            const maxPrice = document.getElementById('price-filter').value;
+            const priceLabel = document.getElementById('price-range-label');
+            priceLabel.textContent = `Price: $0 - $${maxPrice}`;
+
+            // Apply both category and price filters
+            filteredProducts = products.filter(product => 
+                (selectedCategory === '' || product.category === selectedCategory) &&
+                product.price <= maxPrice
+            );
+            productPage = 1; // Reset to first page
+            renderProducts();
+        }
+
+        // Initial Rendering
+        renderOrders();
+        renderProducts();
+    </script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Admin - Petty Cash Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .branch-selector {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .branch-selector select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+        .branch-summary, .reports-section {
+            margin-bottom: 40px;
+        }
+        .branch-card, .report-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 30%;
+        }
+        .form-section input, .form-section textarea, .form-section select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-section button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-section button:hover {
+            background-color: #45a049;
+        }
+        .table-section table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table-section th, .table-section td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        .table-section th {
+            background-color: #f4f4f9;
+        }
+        .action-buttons {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .action-buttons button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .action-buttons button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Super Admin - Petty Cash Management</h1>
+</header>
+
+<!-- Branch Selector Dropdown -->
+<div class="branch-selector">
+    <label for="branch-select"><strong>Select Branch:</strong></label>
+    <select id="branch-select" name="branch">
+        <option value="ny-main-office">New York - Main Office</option>
+        <option value="la-office">Los Angeles Office</option>
+        <option value="chicago-branch">Chicago Branch</option>
+        <option value="sf-branch">San Francisco Branch</option>
+    </select>
+</div>
+
+<div class="container">
+    <!-- Branch Summary Section -->
+    <div class="branch-summary">
+        <h2>Branch Summary</h2>
+        <div class="stats">
+            <div class="stat-card">
+                <h3>Total Petty Cash</h3>
+                <p>$10,000</p>
+            </div>
+            <div class="stat-card">
+                <h3>Total Expenses</h3>
+                <p>$4,500</p>
+            </div>
+            <div class="stat-card">
+                <h3>Pending Requests</h3>
+                <p>5</p>
+            </div>
+        </div>
+        <a href="Petty-Cash-Management-Branch.html">
+        <button class="form-section">View Detailed Branch Summary</button>
+        </a>
+    </div>
+
+    <!-- Reports Section -->
+    <div class="reports-section">
+        <h2>Reports</h2>
+        <div class="report-card">
+            <h3>Overall Petty Cash Usage</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Branch</th>
+                        <th>Petty Cash</th>
+                        <th>Total Expenses</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>New York</td>
+                        <td>$5000</td>
+                        <td>$2000</td>
+                        <td>Pending</td>
+                        <td>
+                            <select>
+                                <option value="approve">Approve</option>
+                                <option value="reject">Reject</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Los Angeles</td>
+                        <td>$3000</td>
+                        <td>$1500</td>
+                        <td>Approved</td>
+                        <td>
+                            <select>
+                                <option value="approve">Approve</option>
+                                <option value="reject">Reject</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Chicago</td>
+                        <td>$1000</td>
+                        <td>$500</td>
+                        <td>Rejected</td>
+                        <td>
+                            <select>
+                                <option value="approve">Approve</option>
+                                <option value="reject">Reject</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="report-card">
+            <h3>Pending Replenishment Requests</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Branch</th>
+                        <th>Requested Amount</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>New York</td>
+                        <td>$500</td>
+                        <td>Pending</td>
+                        <td>
+                            <select>
+                                <option value="approve">Approve</option>
+                                <option value="reject">Reject</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Los Angeles</td>
+                        <td>$200</td>
+                        <td>Approved</td>
+                        <td>
+                            <select>
+                                <option value="approve">Approve</option>
+                                <option value="reject">Reject</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+        <button>Approve All Requests</button>
+        <button>Process Replenishments</button>
+    </div>
+</div>
+
+</body>
+</html>

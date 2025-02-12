@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Training Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+            width: 85%;
+            margin: 0 auto;
+            padding-top: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .grid-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .grid-header button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+        }
+        .grid-header input {
+            padding: 8px;
+            font-size: 16px;
+            border-radius: 5px;
+            width: 200px;
+        }
+        .grid {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .table th, .table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .table th {
+            background-color: #f1f1f1;
+            font-weight: bold;
+        }
+        .table td {
+            font-size: 14px;
+        }
+        .action-buttons button {
+            padding: 6px 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .action-buttons button:hover {
+            background-color: #45a049;
+        }
+        .progress {
+            width: 60%;
+            background-color: #ddd;
+            border-radius: 5px;
+            height: 10px;
+            position: relative;
+        }
+        .progress-bar {
+            background-color: #4CAF50;
+            height: 100%;
+            border-radius: 5px;
+            width: 0%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Admin Panel - Training Management</h1>
+        </div>
+
+        <!-- Training Grid -->
+        <div class="grid-header">
+            <button onclick="navigateToAddTraining()">Add Training</button>
+            <input type="text" id="trainingSearch" placeholder="Search Trainings" onkeyup="filterTrainingList()">
+        </div>
+
+        <div class="grid">
+            <table class="table" id="trainingTable">
+                <thead>
+                    <tr>
+                        <th>Training Name</th>
+                        <th>Description</th>
+                        <th>Assign Training</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Training Items will be inserted here -->
+                </tbody>
+            </table>
+            <button onclick="viewMoreTrainings()">View More</button>
+        </div>
+<br />
+
+        <!-- Employee Grid -->
+        <div class="grid-header">
+            <input type="text" id="employeeSearch" placeholder="Search Employees" onkeyup="filterEmployeeList()">
+ 
+        </div>
+
+        <div class="grid">
+            <table class="table" id="employeeTable">
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Assigned Training</th>
+                        <th>Progress</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Employee Items will be inserted here -->
+                </tbody>
+            </table>
+            <button onclick="viewMoreEmployees()">View More Employees</button>
+        </div>
+    </div>
+
+    <script>
+        // Sample data for trainings and employees
+        let trainings = [
+            { id: 1, name: "Training 1", description: "Description of training 1" },
+            { id: 2, name: "Training 2", description: "Description of training 2" },
+            { id: 3, name: "Training 3", description: "Description of training 3" }
+        ];
+
+        let employees = [
+            { id: 1, name: "Employee 1", trainingAssigned: "Training 1", progress: 30 },
+            { id: 2, name: "Employee 2", trainingAssigned: "Training 2", progress: 50 },
+            { id: 3, name: "Employee 3", trainingAssigned: "Training 1", progress: 70 }
+        ];
+
+        // Render Training List
+        function renderTrainingList() {
+            const trainingTable = document.getElementById('trainingTable').getElementsByTagName('tbody')[0];
+            trainingTable.innerHTML = ''; // Clear existing rows
+            trainings.forEach(training => {
+                const row = `
+                    <tr>
+                        <td>${training.name}</td>
+                        <td>${training.description}</td>
+                        <td>
+                            <button onclick="assignTrainingToEmployee(${training.id})">Assign Training</button>
+                        </td>
+                    </tr>
+                `;
+                trainingTable.insertAdjacentHTML('beforeend', row);
+            });
+        }
+
+        // Render Employee List
+        function renderEmployeeList() {
+            const employeeTable = document.getElementById('employeeTable').getElementsByTagName('tbody')[0];
+            employeeTable.innerHTML = ''; // Clear existing rows
+            employees.forEach(employee => {
+                const progress = employee.progress;
+                const row = `
+                    <tr>
+                        <td>${employee.name}</td>
+                        <td>${employee.trainingAssigned}</td>
+                        <td>
+                            <div class="progress">
+                                <div class="progress-bar" style="width: ${progress}%"></div>
+                            </div>
+                            ${progress}% Complete
+                        </td>
+                    </tr>
+                `;
+                employeeTable.insertAdjacentHTML('beforeend', row);
+            });
+        }
+
+        // Filter Training List based on search input
+        function filterTrainingList() {
+            const searchTerm = document.getElementById('trainingSearch').value.toLowerCase();
+            const filteredTrainings = trainings.filter(training =>
+                training.name.toLowerCase().includes(searchTerm) || 
+                training.description.toLowerCase().includes(searchTerm)
+            );
+            trainings = filteredTrainings;
+            renderTrainingList();
+        }
+
+        // Filter Employee List based on search input
+        function filterEmployeeList() {
+            const searchTerm = document.getElementById('employeeSearch').value.toLowerCase();
+            const filteredEmployees = employees.filter(employee =>
+                employee.name.toLowerCase().includes(searchTerm) || 
+                employee.trainingAssigned.toLowerCase().includes(searchTerm)
+            );
+            employees = filteredEmployees;
+            renderEmployeeList();
+        }
+
+        // View more trainings (pagination or additional data fetch)
+        function viewMoreTrainings() {
+            // You can implement pagination or fetching more data from a database
+            alert("View More clicked - Implement Pagination or Data Fetch");
+        }
+
+        // View more employees (pagination or additional data fetch)
+        function viewMoreEmployees() {
+            // You can implement pagination or fetching more data from a database
+            alert("View More Employees clicked - Implement Pagination or Data Fetch");
+        }
+
+        // Navigate to Add Training screen
+        function navigateToAddTraining() {
+            // For now, we'll just alert
+            alert('Navigating to Add Training screen...');
+        }
+
+        // Navigate to Assign Training screen
+        function navigateToAssignTraining() {
+            // For now, we'll just alert
+            alert('Navigating to Assign Training screen...');
+        }
+
+        // Assign Training to Employee
+        function assignTrainingToEmployee(trainingId) {
+            const training = trainings.find(t => t.id === trainingId);
+            const employeeName = prompt("Enter the name of the employee to assign this training:");
+            const employee = employees.find(e => e.name.toLowerCase() === employeeName.toLowerCase());
+
+            if (employee) {
+                employee.trainingAssigned = training.name;
+                alert(`Assigned ${training.name} to ${employee.name}`);
+                renderEmployeeList();
+            } else {
+                alert("Employee not found");
+            }
+        }
+
+        // Initial render
+        renderTrainingList();
+        renderEmployeeList();
+    </script>
+</body>
+</html>

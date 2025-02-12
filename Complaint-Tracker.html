@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js Library -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .dashboard {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .dashboard .box {
+            flex: 1;
+            padding: 20px;
+            background-color: #f1f1f1;
+            text-align: center;
+            border-radius: 8px;
+        }
+        .dashboard .box h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #333;
+        }
+        .dashboard .box p {
+            font-size: 24px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .chart-container {
+            height: 300px;
+            margin-top: 20px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+        }
+        .complaint-list {
+            margin-top: 30px;
+        }
+        .complaint-list table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .complaint-list table th, .complaint-list table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        .complaint-list table th {
+            background-color: #f8f8f8;
+        }
+        .complaint-details {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        .complaint-details h4 {
+            margin-top: 0;
+        }
+        .complaint-details .messages {
+            margin-top: 20px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        .complaint-details .edit-section {
+            margin-top: 20px;
+        }
+        .complaint-details button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .complaint-details button:hover {
+            background-color: #45a049;
+        }
+
+        /* Response input field */
+        .response-section {
+            margin-top: 20px;
+        }
+        .response-section input {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        .response-section button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .response-section button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .dashboard {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Dashboard Section -->
+        <div class="dashboard">
+            <div class="box">
+                <h3>Total Complaints</h3>
+                <p>120</p>
+            </div>
+            <div class="box">
+                <h3>Resolved Complaints</h3>
+                <p>80</p>
+            </div>
+            <div class="box">
+                <h3>Pending Complaints</h3>
+                <p>40</p>
+            </div>
+        </div>
+
+        <!-- Chart Section (Centered) -->
+        <div class="chart-container">
+            <canvas id="complaintsChart"></canvas>
+        </div>
+
+        <!-- Complaint List Section -->
+        <div class="complaint-list">
+            <h2>Complaint List</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Complaint ID</th>
+                        <th>User Name</th>
+                        <th>Complaint Type</th>
+                        <th>Status</th>
+                        <th>Date Submitted</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="complaint-row" onclick="showComplaintDetails('complaint1')">
+                        <td>001</td>
+                        <td>John Doe</td>
+                        <td>Product</td>
+                        <td>Pending</td>
+                        <td>2025-01-20</td>
+                    </tr>
+                    <tr class="complaint-row" onclick="showComplaintDetails('complaint2')">
+                        <td>002</td>
+                        <td>Jane Smith</td>
+                        <td>Service</td>
+                        <td>Resolved</td>
+                        <td>2025-01-18</td>
+                    </tr>
+                    <tr class="complaint-row" onclick="showComplaintDetails('complaint3')">
+                        <td>003</td>
+                        <td>Michael Brown</td>
+                        <td>Product</td>
+                        <td>Pending</td>
+                        <td>2025-01-15</td>
+                    </tr>
+                    <tr class="complaint-row" onclick="showComplaintDetails('complaint4')">
+                        <td>004</td>
+                        <td>Amy Lee</td>
+                        <td>Service</td>
+                        <td>Resolved</td>
+                        <td>2025-01-10</td>
+                    </tr>
+                    <tr class="complaint-row" onclick="showComplaintDetails('complaint5')">
+                        <td>005</td>
+                        <td>David Kim</td>
+                        <td>Product</td>
+                        <td>Pending</td>
+                        <td>2025-01-05</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Complaint Details Section (Hidden by default) -->
+        <div id="complaint1" class="complaint-details">
+            <h4>Complaint Details - ID 001</h4>
+            <div class="edit-section">
+                <label for="status">Status: </label>
+                <select id="status">
+                    <option value="resolved">Resolved</option>
+                    <option value="pending">Pending</option>
+                </select>
+                <button>Edit Complaint</button>
+            </div>
+            <div class="edit-section">
+                <label for="fullDescription">Full Description: </label>
+                <p id="fullDescription">Customer's product was delayed beyond the promised delivery date. The customer requested a refund and compensation for the delay, stating that this impacted their business operations. The complaint has been escalated to the operations team for review.</p>
+            </div>
+            <div class="messages">
+                <div class="message">
+                    <strong>Support:</strong> We are looking into your issue.
+                </div>
+                <div class="message">
+                    <strong>User:</strong> I haven't received the item yet.
+                </div>
+            </div>
+            <div class="response-section">
+                <input type="text" id="response" placeholder="Type your response here...">
+                <button onclick="sendResponse()">Send</button>
+            </div>
+        </div>
+
+        <div id="complaint2" class="complaint-details">
+            <h4>Complaint Details - ID 002</h4>
+            <div class="edit-section">
+                <label for="status">Status: </label>
+                <select id="status">
+                    <option value="resolved">Resolved</option>
+                    <option value="pending">Pending</option>
+                </select>
+                <button>Edit Complaint</button>
+            </div>
+            <div class="edit-section">
+                <label for="fullDescription">Full Description: </label>
+                <p id="fullDescription">Customer requested a cancellation due to an error in the order. After verifying, the cancellation was approved, and the refund was processed on the same day. The customer was satisfied with the resolution but would like to see improvements in the order system.</p>
+            </div>
+            <div class="messages">
+                <div class="message">
+                    <strong>Support:</strong> Your refund has been processed successfully.
+                </div>
+                <div class="message">
+                    <strong>User:</strong> Thank you for the help.
+                </div>
+            </div>
+            <div class="response-section">
+                <input type="text" id="response" placeholder="Type your response here...">
+                <button onclick="sendResponse()">Send</button>
+            </div>
+        </div>
+
+        <!-- Additional Complaint Detail Sections will be similar to the ones above -->
+
+    </div>
+
+    <script>
+        // Toggle complaint details visibility
+        function showComplaintDetails(id) {
+            const details = document.querySelectorAll('.complaint-details');
+            details.forEach(detail => {
+                if (detail.id === id) {
+                    detail.style.display = detail.style.display === 'block' ? 'none' : 'block';
+                } else {
+                    detail.style.display = 'none';
+                }
+            });
+        }
+
+        // Function to send response
+        function sendResponse() {
+            const response = document.getElementById('response').value;
+            if (response.trim() !== '') {
+                const newMessage = document.createElement('div');
+                newMessage.classList.add('message');
+                newMessage.innerHTML = `<strong>Support:</strong> ${response}`;
+                document.querySelector('.messages').appendChild(newMessage);
+                document.getElementById('response').value = '';  // Clear the input field
+            }
+        }
+
+        // Chart.js implementation for Complaints chart
+        var ctx = document.getElementById('complaintsChart').getContext('2d');
+        var complaintsChart = new Chart(ctx, {
+            type: 'pie', // Chart type: 'bar' or 'pie'
+            data: {
+                labels: ['Total Complaints', 'Resolved Complaints', 'Pending Complaints'],
+                datasets: [{
+                    label: 'Complaints Status',
+                    data: [120, 80, 40],  // Example data: Total, Resolved, Pending
+                    backgroundColor: ['#36a2eb', '#4caf50', '#ff6347'],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

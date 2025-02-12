@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Cash Envelope Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 60%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .form-section {
+            margin-top: 30px;
+        }
+        .form-section label {
+            font-size: 16px;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .form-section input, .form-section select, .form-section textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box; /* Ensure padding doesn't affect the width */
+        }
+        .form-section button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .form-section button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Create Cash Envelope</h1>
+        <form class="form-section" action="" method="post">
+            <label for="envelopeID">Envelope ID:</label>
+            <input type="text" id="envelopeID" name="envelopeID" placeholder="Enter Envelope ID" required>
+
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" placeholder="Enter Amount" required>
+
+            <label for="employeeResponsible">Employee Responsible:</label>
+            <input type="text" id="employeeResponsible" name="employeeResponsible" placeholder="Enter Employee Name" required>
+
+            <label for="location">Location:</label>
+            <select id="location" name="location" required>
+                <option value="">Select Location</option>
+                <option value="Safe">Safe</option>
+                <option value="Cash Register">Cash Register</option>
+                <option value="Bank">Bank</option>
+                <option value="Store Room">Store Room</option>
+            </select>
+
+            <label for="movementHistory">Movement History:</label>
+            <textarea id="movementHistory" name="movementHistory" rows="4" placeholder="Enter Movement History (e.g., Transferred to Emma - 2025-01-25)" required></textarea>
+
+            <button type="submit">Create Envelope</button>
+        </form>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Admin Maintenance Dashboard</title>
+    <style>
+        /* Resetting some default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 24px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Branch Selection */
+        .branch-selection {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .branch-selection label {
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        .branch-selection select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        /* Add Maintenance Button */
+        #add-maintenance-btn {
+            display: none;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        #add-maintenance-btn button {
+            background-color: #28a745;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #add-maintenance-btn button:hover {
+            background-color: #218838;
+        }
+
+        /* Overview Section */
+        #overview {
+            margin-top: 30px;
+        }
+
+        .overview-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            justify-items: center;
+        }
+
+        .stat {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat h3 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .stat p {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        /* Docket Header Styles */
+        .docket-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .docket-header h2 {
+            font-size: 22px;
+            margin-right: 20px;
+        }
+
+        /* Docket Table Section */
+        #docket-table {
+            margin-top: 50px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        td img {
+            width: 50px;
+            height: auto;
+            cursor: pointer;
+        }
+
+        button {
+            background-color: #28a745;
+            color: #fff;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        button:focus {
+            outline: none;
+        }
+
+        /* Analytics Section */
+        #analytics {
+            margin-top: 50px;
+        }
+
+        .chart-container {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 20px;
+        max-width: 100%; /* Prevents container overflow */
+        overflow: hidden; /* Prevents overflow from the container */
+       }
+
+       .chart {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 100%;
+        max-width: 500px; /* Ensure max-width for larger screens */
+        height: auto; /* Let the height adjust based on content */
+        box-sizing: border-box; /* Ensures padding is part of the height and width */
+        margin: 0 auto; /* Centers the chart */
+        }
+
+        .chart canvas {
+        width: 100% !important; /* Ensures canvas takes up full width of container */
+        height: auto !important; /* Allows canvas to adjust height dynamically */
+        }
+
+        .chart h3 {
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 15px;
+            background-color: #007bff;
+            color: white;
+            font-size: 14px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 20px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                margin-top: 15px;
+            }
+
+            .overview-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .stat h3 {
+                font-size: 16px;
+            }
+
+            .stat p {
+                font-size: 20px;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+
+            button {
+                font-size: 14px;
+            }
+
+            .chart {
+                width: calc(50% - 20px);
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 18px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                padding-left: 0;
+            }
+
+            .overview-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .stat h3 {
+                font-size: 14px;
+            }
+
+            .stat p {
+                font-size: 18px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 6px;
+            }
+
+            button {
+                font-size: 12px;
+                padding: 4px 8px;
+            }
+
+            .chart {
+                width: 100%;
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+        .chart {
+            width: 100%;
+            max-width: 100%; /* Let the chart scale for smaller screens */
+            height: auto; /* Allows the height to adjust */
+        }
+        }
+
+        @media (max-width: 480px) {
+            .chart {
+                width: 100%;
+                max-width: 100%;
+                height: auto; /* Allows the height to adjust properly */
+            }   
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Maintenance & Logistics Super Admin Dashboard</h1>
+        <nav>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#docket-table">Docket Submissions</a></li>
+                <li><a href="#analytics">Analytics</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="branch-selection">
+        <label for="branch-select">Select Branch:</label>
+        <select id="branch-select">
+            <option value="all">All Branches</option>
+            <option value="branch1">Branch 1</option>
+            <option value="branch2">Branch 2</option>
+            <option value="branch3">Branch 3</option>
+            <option value="branch4">Branch 4</option>
+        </select>
+    </section>
+
+    <!-- Add Maintenance Request Button -->
+
+    <section id="overview">
+        <h2>Overview</h2>
+        <div class="overview-stats">
+            <div class="stat" data-branch="branch1 branch2 branch3 branch4">
+                <h3>Total Submitted Dockets</h3>
+                <p id="total-dockets">35</p>
+            </div>
+            <div class="stat" data-branch="branch1 branch2 branch3 branch4">
+                <h3>Pending Approvals</h3>
+                <p id="pending-approvals">7</p>
+            </div>
+            <div class="stat" data-branch="branch1 branch2 branch3 branch4">
+                <h3>Completed Tasks</h3>
+                <p id="completed-tasks">28</p>
+            </div>
+            <div class="stat" data-branch="branch1 branch2 branch3 branch4">
+                <h3>Overdue Tasks</h3>
+                <p id="overdue-tasks">3</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="docket-table">
+        <div class="docket-header">
+            <h2>Maintenance Docket Submissions</h2>
+            <div id="add-maintenance-btn">
+                <button onclick="openPopup()">Add Maintenance Request</button>
+            </div>
+        </div>
+        <table id="docket-table-data">
+            <thead>
+                <tr>
+                    <th>Docket ID</th>
+                    <th>Date Submitted</th>
+                    <th>Requester</th>
+                    <th>Technician</th>
+                    <th>Issue Description</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Uploaded Photos</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="branch1 branch2">
+                    <td>#001</td>
+                    <td>2025-01-25</td>
+                    <td>John Doe</td>
+                    <td>Jane Smith</td>
+                    <td>Broken Pipe</td>
+                    <td>High</td>
+                    <td>In Progress</td>
+                    <td><img src="example.jpg" alt="Uploaded Photo" width="50"></td>
+                    <td><button>Approve</button> <button>Reject</button></td>
+                </tr>
+                <tr class="branch3 branch4">
+                    <td>#002</td>
+                    <td>2025-01-27</td>
+                    <td>Alice Green</td>
+                    <td>Mark Lee</td>
+                    <td>Leaking Roof</td>
+                    <td>Medium</td>
+                    <td>Completed</td>
+                    <td><img src="example2.jpg" alt="Uploaded Photo" width="50"></td>
+                    <td><button>Close</button></td>
+                </tr>
+                <!-- More rows as needed -->
+            </tbody>
+        </table>
+    </section>
+
+    <section id="analytics">
+        <h2>Analytics</h2>
+        <div class="chart-container">
+            <div class="chart">
+                <h3>Total Requests Over Time</h3>
+                <canvas id="totalRequestsChart"></canvas>
+            </div>
+            <div class="chart">
+                <h3>Technician Performance</h3>
+                <canvas id="technicianPerformanceChart"></canvas>
+            </div>
+            <div class="chart">
+                <h3>Task Completion Time</h3>
+                <canvas id="completionTimeChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Maintenance & Logistics</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // JavaScript to filter content based on the selected branch
+        document.getElementById('branch-select').addEventListener('change', function() {
+            var selectedBranch = this.value;
+            var stats = document.querySelectorAll('.stat');
+            var rows = document.querySelectorAll('#docket-table-data tbody tr');
+            var addMaintenanceBtn = document.getElementById('add-maintenance-btn');
+
+            // Filter stats based on selected branch
+            stats.forEach(function(stat) {
+                var branches = stat.getAttribute('data-branch').split(' ');
+                if (branches.includes(selectedBranch) || selectedBranch === 'all') {
+                    stat.style.display = 'block';
+                } else {
+                    stat.style.display = 'none';
+                }
+            });
+
+            // Filter rows based on selected branch
+            rows.forEach(function(row) {
+                var rowBranches = row.getAttribute('class').split(' ');
+                if (rowBranches.includes(selectedBranch) || selectedBranch === 'all') {
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            // Show or hide "Add Maintenance Request" button based on the selected branch
+            if (selectedBranch !== 'all') {
+                addMaintenanceBtn.style.display = 'block';
+            } else {
+                addMaintenanceBtn.style.display = 'none';
+            }
+        });
+
+        // Example of creating a simple chart for analytics using Chart.js
+        var ctx = document.getElementById('totalRequestsChart').getContext('2d');
+        var totalRequestsChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan 1', 'Jan 2', 'Jan 3', 'Jan 4', 'Jan 5', 'Jan 6', 'Jan 7'],
+                datasets: [{
+                    label: 'Total Requests',
+                    data: [10, 15, 12, 20, 25, 30, 35],
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    fill: false
+                }]
+            }
+        });
+
+        var ctx2 = document.getElementById('technicianPerformanceChart').getContext('2d');
+        var technicianPerformanceChart = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['Technician 1', 'Technician 2', 'Technician 3'],
+                datasets: [{
+                    label: 'Completed Tasks',
+                    data: [12, 15, 18],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        var ctx3 = document.getElementById('completionTimeChart').getContext('2d');
+        var completionTimeChart = new Chart(ctx3, {
+            type: 'pie',
+            data: {
+                labels: ['Under 1 day', '1-3 days', 'Over 3 days'],
+                datasets: [{
+                    label: 'Completion Time',
+                    data: [10, 20, 5],
+                    backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe']
+                }]
+            }
+        });
+
+        function openPopup(){
+            window.open('add-maintenance-request.html', 'MaintenanceRequest', 'width=800,height=600');
+        }
+    </script>
+</body>
+</html>

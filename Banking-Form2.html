@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Till Management</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 8px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    th { background-color: #f0f0f0; }
+    label {
+      font-weight: bold;
+    }
+    .form-section {
+      margin-bottom: 40px;
+    }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+  <h1>Till Management</h1>
+
+  <form id="reportForm">
+    <label for="reportType">Select Activity:</label>
+    <select id="reportType" onchange="toggleFields()">
+      <option value="tillStart">Till Start</option>
+      <option value="tillStop">Till Stop (End of Day)</option>
+      <option value="handover">Till Handover</option>
+    </select>
+    
+    <!-- Till Start Form -->
+    <div id="tillStartFields" class="form-section">
+      <h2>Till Start Report (Till Float)</h2>
+      <label for="tillEmployeeStart">Employee:</label>
+      <input type="text" id="tillEmployeeStart" placeholder="Employee Name"><br><br>
+      <label for="floatStart">Float Start:</label>
+      <input type="number" id="floatStart" step="0.01" placeholder="$0.00"><br><br>
+    </div>
+    
+    <!-- Till Stop Form -->
+    <div id="tillStopFields" class="hidden form-section">
+      <h2>Till Stop Report (End-of-Day)</h2>
+      <label for="cashSalesEnd">Total Cash Sales:</label>
+      <input type="number" id="cashSalesEnd" step="0.01" placeholder="$0.00"><br><br>
+      <label for="creditSalesEnd">Total Credit Sales:</label>
+      <input type="number" id="creditSalesEnd" step="0.01" placeholder="$0.00"><br><br>
+      <label for="totalExpenses">Total Expenses:</label>
+      <input type="number" id="totalExpenses" step="0.01" placeholder="$0.00"><br><br>
+      <label for="adjustment">Adjustment:</label>
+      <input type="number" id="adjustment" step="0.01" placeholder="$0.00"><br><br>
+      <label for="expectedCash">Expected Cash:</label>
+      <input type="number" id="expectedCash" step="0.01" placeholder="$0.00" readonly><br><br>
+      <label for="actualCash">Actual Cash:</label>
+      <input type="number" id="actualCash" step="0.01" placeholder="$0.00" oninput="calculateDiscrepancy()"><br><br>
+      <label for="discrepancy">Discrepancy:</label>
+      <input type="number" id="discrepancy" step="0.01" placeholder="$0.00" readonly><br><br>
+      <label for="tillStatus">Till Status:</label>
+      <input type="text" id="tillStatus" placeholder="Correct/Incorrect" readonly><br><br>
+      <label for="comments">Comments:</label>
+      <textarea id="comments" rows="4" placeholder="Enter Comments"></textarea><br><br>
+    </div>
+
+    <!-- Till Handover Form -->
+    <div id="handoverFields" class="hidden form-section">
+      <h2>Till Handover Report</h2>
+      <label for="cashSalesHandover">Total Cash Sales:</label>
+      <input type="number" id="cashSalesHandover" step="0.01" placeholder="$0.00"><br><br>
+      <label for="creditSalesHandover">Total Credit Sales:</label>
+      <input type="number" id="creditSalesHandover" step="0.01" placeholder="$0.00"><br><br>
+      <label for="totalExpensesHandover">Total Expenses:</label>
+      <input type="number" id="totalExpensesHandover" step="0.01" placeholder="$0.00"><br><br>
+      <label for="adjustmentHandover">Adjustment:</label>
+      <input type="number" id="adjustmentHandover" step="0.01" placeholder="$0.00"><br><br>
+      <label for="expectedCashHandover">Expected Cash:</label>
+      <input type="number" id="expectedCashHandover" step="0.01" placeholder="$0.00" readonly><br><br>
+      <label for="actualCashHandover">Actual Cash:</label>
+      <input type="number" id="actualCashHandover" step="0.01" placeholder="$0.00" oninput="calculateDiscrepancy()"><br><br>
+      <label for="discrepancyHandover">Discrepancy:</label>
+      <input type="number" id="discrepancyHandover" step="0.01" placeholder="$0.00" readonly><br><br>
+      <label for="handoverStatus">Till Status:</label>
+      <input type="text" id="handoverStatus" placeholder="Correct/Incorrect" readonly><br><br>
+      <label for="handoverEmployee">Handed Over To:</label>
+      <input type="text" id="handoverEmployee" placeholder="Employee Name"><br><br>
+      <label for="handoverComments">Comments:</label>
+      <textarea id="handoverComments" rows="4" placeholder="Enter Comments"></textarea><br><br>
+    </div>
+
+    <button type="button" onclick="generateReport()">Submit </button>
+  </form>   
+
+  <script>
+    function toggleFields() {
+      document.getElementById("tillStartFields").classList.add("hidden");
+      document.getElementById("tillStopFields").classList.add("hidden");
+      document.getElementById("handoverFields").classList.add("hidden");
+      
+      let selected = document.getElementById("reportType").value;
+      if (selected === "tillStart") {
+        document.getElementById("tillStartFields").classList.remove("hidden");
+      } else if (selected === "tillStop") {
+        document.getElementById("tillStopFields").classList.remove("hidden");
+      } else if (selected === "handover") {
+        document.getElementById("handoverFields").classList.remove("hidden");
+      }
+    }
+  </script>
+</body>
+</html>

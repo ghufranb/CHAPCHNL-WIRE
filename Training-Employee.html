@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Screen</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding-top: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .step {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .step img {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+        .step h3 {
+            margin: 10px 0;
+        }
+        .instructions {
+            font-size: 16px;
+        }
+        .progress-bar {
+            height: 5px;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .progress {
+            height: 100%;
+            background-color: #4CAF50;
+            width: 0;
+            border-radius: 5px;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .nav-buttons button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .nav-buttons button:disabled {
+            background-color: #ccc;
+        }
+        .skip-btn {
+            background-color: #f44336;
+        }
+        .complete {
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Training Screen</h1>
+            <p>Welcome to the app training. Learn how to use the app step-by-step.</p>
+        </div>
+
+        <div id="step1" class="step">
+            <h3>Step 1: Getting Started</h3>
+            <img src="https://via.placeholder.com/500" alt="Step 1 Image">
+            <p class="instructions">Tap the "Start" button to begin using the app.</p>
+        </div>
+
+        <div id="step2" class="step" style="display:none;">
+            <h3>Step 2: Navigating the App</h3>
+            <img src="https://via.placeholder.com/500" alt="Step 2 Image">
+            <p class="instructions">Swipe left to go to the next section.</p>
+        </div>
+
+        <div id="step3" class="step" style="display:none;">
+            <h3>Step 3: Completing a Task</h3>
+            <img src="https://via.placeholder.com/500" alt="Step 3 Image">
+            <p class="instructions">Click the button to complete a task in the app.</p>
+        </div>
+
+        <div id="completion" class="complete">
+            <h3>Training Complete!</h3>
+            <p>You've finished the tutorial. You can now start using the app!</p>
+            <button onclick="goHome()">Go to Home</button>
+        </div>
+
+        <div class="progress-bar">
+            <div id="progress" class="progress"></div>
+        </div>
+
+        <div class="nav-buttons">
+            <button id="prevBtn" onclick="prevStep()" disabled>Previous</button>
+            <button id="nextBtn" onclick="nextStep()">Next</button>
+            <button id="skipBtn" onclick="skipTraining()" class="skip-btn">Skip</button>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 3;
+        const progress = document.getElementById("progress");
+        const nextBtn = document.getElementById("nextBtn");
+        const prevBtn = document.getElementById("prevBtn");
+
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateStepDisplay();
+            } else {
+                showCompletion();
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepDisplay();
+            }
+        }
+
+        function skipTraining() {
+            showCompletion();
+        }
+
+        function showCompletion() {
+            document.getElementById("step1").style.display = "none";
+            document.getElementById("step2").style.display = "none";
+            document.getElementById("step3").style.display = "none";
+            document.getElementById("completion").style.display = "block";
+        }
+
+        function goHome() {
+            // Redirect to home page or main app screen
+            window.location.href = "home.html";
+        }
+
+        function updateStepDisplay() {
+            // Hide all steps
+            document.getElementById("step1").style.display = "none";
+            document.getElementById("step2").style.display = "none";
+            document.getElementById("step3").style.display = "none";
+
+            // Show the current step
+            document.getElementById("step" + currentStep).style.display = "block";
+
+            // Update progress bar
+            const progressPercentage = (currentStep / totalSteps) * 100;
+            progress.style.width = progressPercentage + "%";
+
+            // Enable/Disable buttons based on current step
+            if (currentStep === 1) {
+                prevBtn.disabled = true;
+            } else {
+                prevBtn.disabled = false;
+            }
+            if (currentStep === totalSteps) {
+                nextBtn.textContent = "Finish";
+            } else {
+                nextBtn.textContent = "Next";
+            }
+        }
+
+        // Initialize the training screen
+        updateStepDisplay();
+    </script>
+</body>
+</html>

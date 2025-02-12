@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            display: flex;
+        }
+        /* Scrollable Sidebar */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #343a40;
+            color: white;
+            padding: 20px;
+            position: fixed;
+            overflow-y: auto;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        .sidebar a:hover {
+            background: #495057;
+        }
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <a href="#">Dashboard</a>
+        <a href="branch-management-admin.html">Branch Management</a>
+        <a href="Product-Sales-Report7.html">Product Sales Reports</a>
+        <a href="Complaint-Tracker2.html">Complaint Tracker</a>
+        <a href="Google-Review-Tracker2.html">Google Review Tracker</a>
+        <a href="Communication-Hub-3.html">Communications Hub</a>
+        <a href="Calendar2.html">Calendar Management</a>
+        <a href="Notification-Management.html">App Notifications</a>
+        <a href="Training%20Management2.html">Training Module</a>
+        <a href="Focus-Points.html">Monthly Focus Points</a>
+        <a href="Municipality-Files.html">Municipality Files</a>
+        <a href="Banking-Report.html">Banking Reports</a>
+        <a href="Petty-Replenishment-Summary.html">Petty Cash Management</a>
+        <a href="retention.html">Employee Retention Analytics</a>
+        <a href="maintenance.html">Maintenance & Logistics</a>
+        <a href="Products-Orders.html">Barber Equipment Order</a>
+        <a href="PayRoll2.html">Payroll Module</a>
+        <a href="operations.html">Operations Reports</a>
+        <a href="documents.html">Document Requests</a>
+        <a href="check-in.html">Check-in/Out</a>
+        <a href="hr.html">Employee HR Module</a>
+        <a href="leave-tracker.html">Leave Tracker</a>
+        <a href="commissions.html">Commissions & Tips Reports</a>
+        <a href="schedule.html">Schedule Management</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h1>Welcome to the Admin Dashboard</h1>
+        <p>Here is an overview of the key statistics and reports.</p>
+
+        <!-- Dashboard Stats -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card text-white bg-primary mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Sales</h5>
+                        <p class="card-text">$250,000</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">New Complaints</h5>
+                        <p class="card-text">15 this month</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-warning mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Employee Retention</h5>
+                        <p class="card-text">88% this quarter</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="row">
+            <div class="col-md-6">
+                <canvas id="salesChart"></canvas>
+            </div>
+            <div class="col-md-6">
+                <canvas id="complaintsChart"></canvas>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <canvas id="retentionChart"></canvas>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Latest Updates
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">New sales record achieved!</li>
+                        <li class="list-group-item">3 new complaints added</li>
+                        <li class="list-group-item">Upcoming employee training next week</li>
+                        <li class="list-group-item">Payroll reports are updated</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart.js Scripts -->
+    <script>
+        // Sales Line Chart
+        var ctx1 = document.getElementById('salesChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Sales ($)',
+                    data: [5000, 10000, 15000, 20000, 25000, 30000],
+                    borderColor: 'blue',
+                    borderWidth: 2
+                }]
+            }
+        });
+
+        // Complaints Pie Chart
+        var ctx2 = document.getElementById('complaintsChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'pie',
+            data: {
+                labels: ['Resolved', 'Pending', 'Escalated'],
+                datasets: [{
+                    data: [60, 30, 10],
+                    backgroundColor: ['green', 'orange', 'red']
+                }]
+            }
+        });
+
+        // Retention Bar Chart
+        var ctx3 = document.getElementById('retentionChart').getContext('2d');
+        new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                datasets: [{
+                    label: 'Employee Retention (%)',
+                    data: [85, 88, 90, 87],
+                    backgroundColor: 'purple'
+                }]
+            }
+        });
+    </script>
+
+</body>
+</html>

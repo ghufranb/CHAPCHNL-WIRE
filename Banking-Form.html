@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banking Report Form</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 8px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    th { background-color: #f0f0f0; }
+    label {
+      font-weight: bold;
+    }
+    .form-section {
+      margin-bottom: 40px;
+    }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+  <h1>Generate Banking Reports</h1>
+
+  <form id="reportForm">
+    <!-- Report Type Selection -->
+    <label for="reportType">Select Activity:</label>
+    <select id="reportType" onchange="toggleFields()">
+      <option value="tillStart">Till Start</option>
+      <option value="tillStop">Till Stop (End of Day)</option>
+      <option value="handover">Till Handover</option>
+    </select>
+    
+    <!-- Till Start (Till Float Report) Fields -->
+    <div id="tillStartFields" class="hidden form-section">
+      <h2>Till Start Report (Till Float)</h2>
+      <label for="tillEmployeeStart">Employee:</label>
+      <input type="text" id="tillEmployeeStart" placeholder="Employee Name"><br><br>
+      <label for="floatStart">Float Start:</label>
+      <input type="number" id="floatStart" step="0.01" placeholder="$0.00"><br><br>
+      <label for="floatAdjustmentStart">Float Adjustment:</label>
+      <input type="text" id="floatAdjustmentStart" placeholder="Adjustment"><br><br>
+      <label for="floatEndStart">Float End:</label>
+      <input type="number" id="floatEndStart" step="0.01" placeholder="$0.00"><br><br>
+      <label for="floatDateStart">Date/Time:</label>
+      <input type="datetime-local" id="floatDateStart"><br><br>
+    </div>
+
+    <!-- Till Stop (End-of-Day Report) Fields -->
+    <div id="tillStopFields" class="hidden form-section">
+      <h2>Till Stop Report (End-of-Day)</h2>
+      <label for="endCash">Total Cash:</label>
+      <input type="number" id="endCash" step="0.01" placeholder="$0.00"><br><br>
+      <label for="salesBreakdown">Sales Breakdown:</label>
+      <textarea id="salesBreakdown" rows="4" placeholder="Cash Sales, Card Payments"></textarea><br><br>
+      <label for="discrepancies">Discrepancies:</label>
+      <input type="text" id="discrepancies" placeholder="Enter Discrepancies"><br><br>
+      <label for="tillStatus">Till Float Status:</label>
+      <input type="text" id="tillStatus" placeholder="Correct/Incorrect"><br><br>
+      <label for="closingBalance">Closing Balance:</label>
+      <input type="number" id="closingBalance" step="0.01" placeholder="$0.00"><br><br>
+      <label for="managerReview">Manager Review:</label>
+      <input type="text" id="managerReview" placeholder="Approved/Not Approved"><br><br>
+    </div>
+
+    <!-- Till Handover Fields -->
+    <div id="handoverFields" class="hidden form-section">
+      <h2>Till Handover Report</h2>
+      <label for="handoverEmployee">Employee:</label>
+      <input type="text" id="handoverEmployee" placeholder="Employee Name"><br><br>
+      <label for="amountHandedOver">Amount Handed Over:</label>
+      <input type="number" id="amountHandedOver" step="0.01" placeholder="$0.00"><br><br>
+      <label for="receivingEmployee">Receiving Employee:</label>
+      <input type="text" id="receivingEmployee" placeholder="Receiving Employee"><br><br>
+      <label for="handoverTime">Handover Time:</label>
+      <input type="datetime-local" id="handoverTime"><br><br>
+      <label for="handoverComments">Comments:</label>
+      <textarea id="handoverComments" rows="4" placeholder="Enter Comments"></textarea><br><br>
+    </div>
+
+    <button type="button" onclick="generateReport()">Generate Report</button>
+  </form>
+
+  <div id="generatedReport" style="display:none;">
+    <h2>Generated Report</h2>
+    <table id="generatedReportTable">
+      <thead></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    function toggleFields() {
+      const reportType = document.getElementById("reportType").value;
+      const allFields = document.querySelectorAll(".form-section");
+      allFields.forEach(field => field.classList.add("hidden"));
+      
+      if (reportType === "tillStart") {
+        document.getElementById("tillStartFields").classList.remove("hidden");
+      } else if (reportType === "tillStop") {
+        document.getElementById("tillStopFields").classList.remove("hidden");
+      } else if (reportType === "handover") {
+        document.getElementById("handoverFields").classList.remove("hidden");
+      }
+    }
+
+    function generateReport() {
+      const reportType = document.getElementById("reportType").value;
+      const reportTable = document.getElementById("generatedReportTable");
+      const reportTableHead = reportTable.querySelector("thead");
+      const reportTableBody = reportTable.querySelector("tbody");
+
+      reportTableHead.innerHTML = "";
+      reportTableBody.innerHTML = "";
+
+      if (reportType === "tillStart") {
+        reportTableHead.innerHTML = "<tr><th>Employee</th><th>Float Start</th><th>Float Adjustment</th><th>Float End</th><th>Date/Time</th></tr>";
+        reportTableBody.innerHTML = `<tr><td>${document.getElementById("tillEmployeeStart").value}</td><td>$${document.getElementById("floatStart").value}</td><td>${document.getElementById("floatAdjustmentStart").value}</td><td>$${document.getElementById("floatEndStart").value}</td><td>${document.getElementById("floatDateStart").value}</td></tr>`;
+      }
+      else if (reportType === "tillStop") {
+        reportTableHead.innerHTML = "<tr><th>Total Cash</th><th>Sales Breakdown</th><th>Discrepancies</th><th>Till Float Status</th><th>Closing Balance</th><th>Manager Review</th></tr>";
+        reportTableBody.innerHTML = `<tr><td>$${document.getElementById("endCash").value}</td><td>${document.getElementById("salesBreakdown").value}</td><td>${document.getElementById("discrepancies").value}</td><td>${document.getElementById("tillStatus").value}</td><td>$${document.getElementById("closingBalance").value}</td><td>${document.getElementById("managerReview").value}</td></tr>`;
+      }
+      else if (reportType === "handover") {
+        reportTableHead.innerHTML = "<tr><th>Employee</th><th>Amount Handed Over</th><th>Receiving Employee</th><th>Handover Time</th><th>Comments</th></tr>";
+        reportTableBody.innerHTML = `<tr><td>${document.getElementById("handoverEmployee").value}</td><td>$${document.getElementById("amountHandedOver").value}</td><td>${document.getElementById("receivingEmployee").value}</td><td>${document.getElementById("handoverTime").value}</td><td>${document.getElementById("handoverComments").value}</td></tr>`;
+      }
+
+      document.getElementById("generatedReport").style.display = "block";
+    }
+
+    toggleFields();
+  </script>
+
+</body>
+</html>

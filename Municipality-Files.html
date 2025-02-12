@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Municipality Files</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .shop-selector {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .shop-selector select {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .doc-list {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .doc-list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .doc-list th, .doc-list td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .doc-list th {
+            background-color: #f8f8f8;
+        }
+        .upload-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .upload-btn:hover {
+            background-color: #45a049;
+        }
+        .file-upload {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .file-upload input[type="text"],
+        .file-upload input[type="file"] {
+            width: calc(100% - 22px); /* Adjust width for padding and border */
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            box-sizing: border-box; /* Include padding and border in element's total width and height */
+        }
+        .file-upload input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            width: auto; /* or a fixed width if you prefer */
+        }
+        .file-upload input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* Responsive adjustments (Optional - if you want to further refine layout for smaller screens) */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            .file-upload input[type="text"],
+            .file-upload input[type="file"] {
+                width: calc(100% - 22px); /* Adjust if needed */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Shop Selector Dropdown -->
+    <div class="shop-selector">
+        <label for="shop">Select Shop: </label>
+        <select id="shop" name="shop">
+            <option value="shop1">Shop 1</option>
+            <option value="shop2">Shop 2</option>
+            <option value="shop3">Shop 3</option>
+            <option value="shop4">Shop 4</option>
+        </select>
+    </div>
+
+    <h1>Municipality Files</h1>
+
+    <div class="doc-list">
+        <h2>Required Shop Documents</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Document Name</th>
+                    <th>Upload Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Business License</td>
+                    <td>2025-01-25</td>
+                    <td><button>Delete</button></td>
+                </tr>
+                <tr>
+                    <td>Health and Safety Certificate</td>
+                    <td>2025-01-20</td>
+                    <td><button>Delete</button></td>
+                </tr>
+                <tr>
+                    <td>Tax Registration</td>
+                    <td>2025-01-18</td>
+                    <td><button>Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="file-upload">
+        <h2>Upload New Document</h2>
+        <form action="#" method="POST" enctype="multipart/form-data">
+            <input type="text" name="title" placeholder="Enter Document Title" required>
+            <input type="file" name="document" required>
+            <input type="submit" value="Upload Document">
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

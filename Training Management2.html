@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Training Module</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .sidebar {
+      height: 100vh;
+      background-color: #f8f9fa;
+      padding: 20px;
+    }
+    .content {
+      padding: 20px;
+    }
+    .sidebar a {
+      text-decoration: none;
+      color: #333;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .sidebar a:hover {
+      color: #007bff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <div class="col-md-3 sidebar">
+        <h3>Admin Panel</h3>
+        <nav>
+          <a href="#dashboard">Dashboard</a>
+          <a href="#employee-training">Employee Training Tracking</a>
+          <a href="#development-plans">Development Plans</a>
+          <a href="#training-library">Training Library</a>
+          <a href="#training-sessions">Training Sessions</a>
+          <a href="#reports">Reports & Analytics</a>
+          <a href="#notifications">Notifications</a>
+        </nav>
+      </div>
+
+      <!-- Content Area -->
+      <div class="col-md-9 content">
+        <!-- Dashboard Screen -->
+        <div id="dashboard">
+          <h2>Dashboard</h2>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Total Employees Enrolled</h5>
+                  <p class="card-text">150</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Upcoming Training</h5>
+                  <p class="card-text">5 Sessions</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Completed Training</h5>
+                  <p class="card-text">120 Sessions</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Employee Training Tracking Screen -->
+        <div id="employee-training" style="display: none;">
+          <h2>Employee Training Tracking</h2>
+          <button class="btn btn-primary mb-3" onclick="showAssignTrainingForm()">Assign Training</button>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Employee Name</th>
+                <th>Department</th>
+                <th>Training Program</th>
+                <th>Progress</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>John Doe</td>
+                <td>HR</td>
+                <td>Leadership Skills</td>
+                <td>60%</td>
+                <td>In Progress</td>
+              </tr>
+              <tr>
+                <td>Jane Smith</td>
+                <td>IT</td>
+                <td>Python Programming</td>
+                <td>100%</td>
+                <td>Completed</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Assign Training Form -->
+          <div id="assign-training-form" style="display: none;">
+            <h3>Assign Training</h3>
+            <form onsubmit="assignTraining(event)">
+              <div class="mb-3">
+                <label for="employee" class="form-label">Employee</label>
+                <select id="employee" class="form-select" required>
+                  <option value="John Doe">John Doe</option>
+                  <option value="Jane Smith">Jane Smith</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="training-program" class="form-label">Training Program</label>
+                <select id="training-program" class="form-select" required>
+                  <option value="Leadership Skills">Leadership Skills</option>
+                  <option value="Python Programming">Python Programming</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-success">Assign</button>
+              <button type="button" class="btn btn-secondary" onclick="hideAssignTrainingForm()">Cancel</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Development Plans Screen -->
+        <div id="development-plans" style="display: none;">
+            <h2>Development Plans</h2>
+            <button class="btn btn-primary mb-3" onclick="showAddDevelopmentProgramForm()">Add Development Program</button>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Employee Name</th>
+                  <th>Development Goals</th>
+                  <th>Timeline</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>John Doe</td>
+                  <td>Improve Leadership Skills</td>
+                  <td>Jan 2023 - Dec 2023</td>
+                  <td>Active</td>
+                </tr>
+                <tr>
+                  <td>Jane Smith</td>
+                  <td>Learn Advanced Python</td>
+                  <td>Mar 2023 - Sep 2023</td>
+                  <td>Completed</td>
+                </tr>
+              </tbody>
+            </table>
+  
+            <!-- Add Development Program Form -->
+            <div id="add-development-program-form" style="display: none;">
+              <h3>Add Development Program</h3>
+              <form onsubmit="addDevelopmentProgram(event)">
+                <div class="mb-3">
+                  <label for="employee-name" class="form-label">Employee Name</label>
+                  <select id="employee-name" class="form-select" required>
+                    <option value="John Doe">John Doe</option>
+                    <option value="Jane Smith">Jane Smith</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="development-goals" class="form-label">Development Goals</label>
+                  <input type="text" id="development-goals" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                  <label for="timeline" class="form-label">Timeline</label>
+                  <input type="text" id="timeline" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-success">Add Program</button>
+                <button type="button" class="btn btn-secondary" onclick="hideAddDevelopmentProgramForm()">Cancel</button>
+              </form>
+            </div>
+          </div>    
+
+        <!-- Training Library Screen -->
+        <div id="training-library" style="display: none;">
+            <h2>Training Library</h2>
+            <button class="btn btn-primary mb-3" onclick="showCreateTrainingForm()">Add Training Material</button>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Material Name</th>
+                  <th>Type</th>
+                  <th>Category</th>
+                  <th>Upload Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Example Training Materials -->
+                <tr>
+                  <td>Basic Haircutting Techniques</td>
+                  <td>Document</td>
+                  <td>Haircutting</td>
+                  <td>2023-10-01</td>
+                  <td>
+                    <span class="badge bg-success">Active</span>
+                  </td>
+                  <td>
+                    <button class="btn btn-sm btn-warning" onclick="editTraining(1)">Edit</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteTraining(1)">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Beard Grooming Tutorial</td>
+                  <td>Video</td>
+                  <td>Grooming</td>
+                  <td>2023-10-05</td>
+                  <td>
+                    <span class="badge bg-danger">Inactive</span>
+                  </td>
+                  <td>
+                    <button class="btn btn-sm btn-warning" onclick="editTraining(2)">Edit</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteTraining(2)">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Hair Coloring Basics Quiz</td>
+                  <td>Quiz</td>
+                  <td>Coloring</td>
+                  <td>2023-10-10</td>
+                  <td>
+                    <span class="badge bg-success">Active</span>
+                  </td>
+                  <td>
+                    <button class="btn btn-sm btn-warning" onclick="editTraining(3)">Edit</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteTraining(3)">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          
+            <!-- Add Training Material Form -->
+            <div id="create-training-form" style="display: none;">
+              <h3>Add Training Material</h3>
+              <form onsubmit="createTraining(event)">
+                <div class="mb-3">
+                  <label for="training-name" class="form-label">Material Name</label>
+                  <input type="text" id="training-name" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                  <label for="training-type" class="form-label">Type</label>
+                  <select id="training-type" class="form-select" required>
+                    <option value="Document">Document</option>
+                    <option value="Video">Video</option>
+                    <option value="Quiz">Quiz</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="training-category" class="form-label">Category</label>
+                  <select id="training-category" class="form-select" required>
+                    <option value="Haircutting">Haircutting</option>
+                    <option value="Grooming">Grooming</option>
+                    <option value="Coloring">Coloring</option>
+                    <option value="Shaving">Shaving</option>
+                    <option value="Sanitation">Sanitation</option>
+                    <option value="Customer Service">Customer Service</option>
+                    <option value="Product Knowledge">Product Knowledge</option>
+                    <option value="Styling">Styling</option>
+                    <option value="Business Skills">Business Skills</option>
+                  </select>
+                </div>
+                <div id="quiz-section" style="display: none;">
+                  <h4>Quiz Questions</h4>
+                  <div id="quiz-questions">
+                    <div class="mb-3">
+                      <label for="question-1" class="form-label">Question 1</label>
+                      <input type="text" id="question-1" class="form-control" placeholder="Enter question">
+                      <div class="mt-2">
+                        <label class="form-label">Options</label>
+                        <input type="text" class="form-control mb-2" placeholder="Option 1">
+                        <input type="text" class="form-control mb-2" placeholder="Option 2">
+                        <input type="text" class="form-control mb-2" placeholder="Option 3">
+                        <input type="text" class="form-control mb-2" placeholder="Option 4">
+                      </div>
+                      <label for="correct-answer-1" class="form-label">Correct Answer</label>
+                      <select id="correct-answer-1" class="form-select">
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                        <option value="4">Option 4</option>
+                      </select>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-secondary" onclick="addQuizQuestion()">Add Question</button>
+                </div>
+                <button type="submit" class="btn btn-success">Add Material</button>
+                <button type="button" class="btn btn-secondary" onclick="hideCreateTrainingForm()">Cancel</button>
+              </form>
+            </div>
+          </div>
+        <!-- Training Sessions Screen -->
+        <div id="training-sessions" style="display: none;">
+          <h2>Training Sessions</h2>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Session Name</th>
+                <th>Trainer</th>
+                <th>Date & Time</th>
+                <th>Attendees</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Leadership Workshop</td>
+                <td>John Doe</td>
+                <td>2023-03-15 10:00 AM</td>
+                <td>20</td>
+                <td>Scheduled</td>
+              </tr>
+              <tr>
+                <td>Python Training</td>
+                <td>Jane Smith</td>
+                <td>2023-04-01 02:00 PM</td>
+                <td>15</td>
+                <td>Completed</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Reports & Analytics Screen -->
+        <div id="reports" style="display: none;">
+          <h2>Reports & Analytics</h2>
+          <div class="row">
+            <div class="col-md-6">
+              <h4>Training Completion Rates</h4>
+              <canvas id="completionChart"></canvas>
+            </div>
+            <div class="col-md-6">
+              <h4>Quiz Performance</h4>
+              <canvas id="quizChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notifications Screen -->
+        <div id="notifications" style="display: none;">
+          <h2>Notifications</h2>
+          <ul class="list-group">
+            <li class="list-group-item">John Doe has overdue training.</li>
+            <li class="list-group-item">New material added: Python Basics.</li>
+          </ul>
+        </div>
+
+        <!-- User Management Screen -->
+        <div id="user-management" style="display: none;">
+          <h2>User Management</h2>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Email</th>
+                <th>Last Login</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Admin User</td>
+                <td>Admin</td>
+                <td>admin@example.com</td>
+                <td>2023-03-01</td>
+              </tr>
+              <tr>
+                <td>Trainer User</td>
+                <td>Trainer</td>
+                <td>trainer@example.com</td>
+                <td>2023-03-05</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS and Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Show/hide content based on sidebar navigation
+    document.querySelectorAll('.sidebar a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = e.target.getAttribute('href').substring(1);
+        document.querySelectorAll('.content > div').forEach(div => {
+          div.style.display = 'none';
+        });
+        document.getElementById(target).style.display = 'block';
+      });
+    });
+
+    // Initialize charts
+    const completionChart = new Chart(document.getElementById('completionChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar'],
+        datasets: [{
+          label: 'Completion Rate',
+          data: [80, 90, 85],
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }]
+      }
+    });
+
+    const quizChart = new Chart(document.getElementById('quizChart'), {
+      type: 'pie',
+      data: {
+        labels: ['Pass', 'Fail'],
+        datasets: [{
+          data: [75, 25],
+          backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)']
+        }]
+      }
+    });
+
+    // Assign Training Form
+    function showAssignTrainingForm() {
+      document.getElementById('assign-training-form').style.display = 'block';
+    }
+
+    function hideAssignTrainingForm() {
+      document.getElementById('assign-training-form').style.display = 'none';
+    }
+
+    function assignTraining(event) {
+      event.preventDefault();
+      const employee = document.getElementById('employee').value;
+      const trainingProgram = document.getElementById('training-program').value;
+      alert(`Training "${trainingProgram}" assigned to ${employee}`);
+      hideAssignTrainingForm();
+    }
+
+    // Create Training Form
+// Show/hide the "Add Training Material" form
+function showCreateTrainingForm() {
+  document.getElementById('create-training-form').style.display = 'block';
+}
+
+function hideCreateTrainingForm() {
+  document.getElementById('create-training-form').style.display = 'none';
+}
+
+// Handle quiz section visibility
+document.getElementById('training-type').addEventListener('change', (e) => {
+  if (e.target.value === 'Quiz') {
+    document.getElementById('quiz-section').style.display = 'block';
+  } else {
+    document.getElementById('quiz-section').style.display = 'none';
+  }
+});
+
+// Add quiz questions dynamically
+let questionCount = 1;
+function addQuizQuestion() {
+  questionCount++;
+  const quizQuestions = document.getElementById('quiz-questions');
+  const newQuestion = document.createElement('div');
+  newQuestion.classList.add('mb-3');
+  newQuestion.innerHTML = `
+    <label for="question-${questionCount}" class="form-label">Question ${questionCount}</label>
+    <input type="text" id="question-${questionCount}" class="form-control">
+    <label for="answer-${questionCount}" class="form-label">Answer</label>
+    <input type="text" id="answer-${questionCount}" class="form-control">
+  `;
+  quizQuestions.appendChild(newQuestion);
+}
+
+// Handle form submission
+function createTraining(event) {
+  event.preventDefault();
+  const trainingName = document.getElementById('training-name').value;
+  const trainingType = document.getElementById('training-type').value;
+  const trainingCategory = document.getElementById('training-category').value;
+  alert(`Training material "${trainingName}" added successfully!`);
+  hideCreateTrainingForm();
+}
+
+function showAddDevelopmentProgramForm() {
+            document.getElementById('add-development-program-form').style.display = 'block';
+          }
+
+          // Hide Add Development Program form
+          function hideAddDevelopmentProgramForm() {
+            document.getElementById('add-development-program-form').style.display = 'none';
+          }
+
+          // Add Development Program
+          function addDevelopmentProgram(event) {
+            event.preventDefault();
+            const employeeName = document.getElementById('employee-name').value;
+            const developmentGoals = document.getElementById('development-goals').value;
+            const timeline = document.getElementById('timeline').value;
+            alert(`Development Program for ${employeeName} added successfully! Goals: ${developmentGoals}, Timeline: ${timeline}`);
+            hideAddDevelopmentProgramForm();
+          }
+  </script>
+</body>
+</html>

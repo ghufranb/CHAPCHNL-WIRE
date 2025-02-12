@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payroll Admin Panel</title>
+    <style>
+        /* Basic Styles for Layout */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            padding: 20px;
+        }
+        .sidebar {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+        }
+        .sidebar h2 {
+            text-align: center;
+            color: #fff;
+        }
+        .sidebar a {
+            color: white;
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .table th, .table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .table td {
+            background-color: #f9f9f9;
+        }
+        .table .actions button {
+            padding: 5px 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .employee-dropdown {
+            width: 100%;
+            padding: 8px;
+            padding-left: 12px; /* Adding padding to the left */
+            padding-right: 12px; /* Adding padding to the right */
+            box-sizing: border-box; /* Ensures padding doesn't affect the width */
+        }
+    </style>
+    <!-- Include jQuery for dynamic search -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Payroll Admin Panel</h2>
+        <a href="#">Dashboard</a>
+        <a href="#">View Payroll</a>
+        <a href="#">Generate Payroll</a>
+        <a href="#">Reports</a>
+        <a href="#">Settings</a>
+        <a href="#">Log Out</a>
+    </div>
+
+    <div class="content">
+        <!-- Generate Payroll Section -->
+        <div class="card">
+            <h2>Generate Payroll</h2>
+            <div class="form-group">
+                <label for="monthSelect">Select Month:</label>
+                <select id="monthSelect">
+                    <option value="January">January</option>
+                    <option value="February">February</option>
+                    <option value="March">March</option>
+                    <option value="April">April</option>
+                    <option value="May">May</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August">August</option>
+                    <option value="September">September</option>
+                    <option value="October">October</option>
+                    <option value="November">November</option>
+                    <option value="December">December</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="yearSelect">Select Year:</label>
+                <select id="yearSelect">
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <!-- Add more years dynamically as needed -->
+                </select>
+            </div>
+            <button class="btn" onclick="generatePayroll()">Generate Payroll</button>
+        </div>
+
+        <!-- Generated Payroll List Section -->
+        <div class="card">
+            <h2>Generated Payroll List</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th>Number of Branches</th>
+                        <th>Number of Employees</th>
+                        <th>Branches Total Amount</th>
+                        <th>Employees Total Commission</th>
+                        <th>Employees Total Salary</th>
+                        <th>View Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Example Data for Generated Payroll -->
+                    <tr>
+                        <td>January 2025</td>
+                        <td>3</td>
+                        <td>50</td>
+                        <td>$150,000</td>
+                        <td>$10,000</td>
+                        <td>$140,000</td>
+                        <td class="actions">
+                            <button onclick="viewPayrollDetails('January 2025')">View Details</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>February 2025</td>
+                        <td>4</td>
+                        <td>60</td>
+                        <td>$180,000</td>
+                        <td>$12,000</td>
+                        <td>$168,000</td>
+                        <td class="actions">
+                            <button onclick="viewPayrollDetails('February 2025')">View Details</button>
+                        </td>
+                    </tr>
+                    <!-- More payroll data rows -->
+                </tbody>
+            </table>
+            <button class="btn">Export to CSV</button>
+        </div>
+
+        <!-- Generate Payslip Section -->
+        <div class="card">
+            <h2>Generate Payslip</h2>
+            <div class="form-group">
+                <label for="employeeSearch">Search Employee:</label>
+                <input type="text" id="employeeSearch" class="employee-dropdown" placeholder="Search Employee..." oninput="filterEmployees()">
+                <select id="employeeSelect" class="employee-dropdown" size="5" style="display: none;">
+                    <!-- Dynamic employee list will appear here -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="monthSelectPayslip">Select Month:</label>
+                <select id="monthSelectPayslip">
+                    <option value="January">January</option>
+                    <option value="February">February</option>
+                    <option value="March">March</option>
+                    <option value="April">April</option>
+                    <option value="May">May</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August">August</option>
+                    <option value="September">September</option>
+                    <option value="October">October</option>
+                    <option value="November">November</option>
+                    <option value="December">December</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="yearSelectPayslip">Select Year:</label>
+                <select id="yearSelectPayslip">
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <!-- Add more years dynamically as needed -->
+                </select>
+            </div>
+            <button class="btn" onclick="generatePayslip()">Generate Payslip</button>
+        </div>
+    </div>
+
+    <script>
+        // Sample Employee Data for Dynamic Search (could come from an API)
+        const employees = [
+            { id: 1, name: "John Doe" },
+            { id: 2, name: "Jane Smith" },
+            { id: 3, name: "Alice Johnson" },
+            { id: 4, name: "Bob Brown" },
+            { id: 5, name: "Charlie White" },
+            { id: 6, name: "David Black" },
+            { id: 7, name: "Eva Green" },
+            { id: 8, name: "Frank Blue" }
+        ];
+
+        // Function to filter employees dynamically based on search input
+        function filterEmployees() {
+            const searchQuery = document.getElementById('employeeSearch').value.toLowerCase();
+            const filteredEmployees = employees.filter(employee => employee.name.toLowerCase().includes(searchQuery));
+            const employeeSelect = document.getElementById('employeeSelect');
+            employeeSelect.innerHTML = ""; // Clear existing options
+            filteredEmployees.forEach(employee => {
+                const option = document.createElement('option');
+                option.value = employee.id;
+                option.textContent = employee.name;
+                employeeSelect.appendChild(option);
+            });
+            employeeSelect.style.display = filteredEmployees.length > 0 ? 'block' : 'none'; // Show the dropdown if there are matches
+        }
+
+        // Placeholder functions for buttons
+        function generatePayroll() {
+            window.open('Payroll-Details.html');
+        }
+
+        function viewPayrollDetails(month) {
+            alert("Viewing details for " + month);
+        }
+
+        function generatePayslip() {
+            alert("Payslip Generated!");
+        }
+    </script>
+</body>
+</html>

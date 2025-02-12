@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Communications Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f1f1f1;
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #34495e;
+            color: #fff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 30px;
+        }
+
+        .sidebar .menu {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar .menu li {
+            margin: 20px 0;
+        }
+
+        .sidebar .menu li a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar .menu li a:hover {
+            color: #3498db;
+        }
+
+        .sidebar .menu li i {
+            margin-right: 10px;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #fff;
+            overflow-y: auto;
+        }
+
+        .header {
+            background-color: #3498db;
+            padding: 15px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 5px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+        }
+
+        .header button {
+            background-color: #fff;
+            color: #3498db;
+            border: 2px solid #3498db;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .header button:hover {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        .notice-board, .group-chat, .individual-chat {
+            margin-top: 30px;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .notice-board h2, .group-chat h2, .individual-chat h2 {
+            font-size: 22px;
+            color: #2c3e50;
+        }
+
+        .notice-board ul, .group-chat ul, .individual-chat ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .notice-board ul li, .group-chat ul li, .individual-chat ul li {
+            background-color: #ecf0f1;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .group-chat .message-box, .individual-chat .message-box {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-top: 15px;
+            font-size: 16px;
+        }
+
+        .group-chat .send-btn, .individual-chat .send-btn {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .group-chat .send-btn:hover, .individual-chat .send-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .group-chat ul li, .individual-chat ul li {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background-color: #ecf0f1;
+        }
+
+        .message-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .message-item .sender {
+            font-weight: bold;
+            color: #2980b9;
+        }
+
+        .message-item .message {
+            flex-grow: 1;
+            margin: 0 10px;
+        }
+
+        .message-item .timestamp {
+            font-size: 12px;
+            color: #95a5a6;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Communications Hub</h2>
+    <ul class="menu">
+        <li><a href="#"><i class="fas fa-bullhorn"></i> Notice Board</a></li>
+        <li><a href="#"><i class="fas fa-users"></i> Group Messaging</a></li>
+        <li><a href="#"><i class="fas fa-comment-alt"></i> Individual Messaging</a></li>
+    </ul>
+</div>
+
+<div class="main-content">
+    <!-- Header -->
+    <div class="header">
+        <h1>Communications Hub</h1>
+        <button>Logout</button>
+    </div>
+
+    <!-- Notice Board Section -->
+    <div class="notice-board">
+        <h2>Notice Board</h2>
+        <ul>
+            <li><strong>New Policy Update:</strong> All employees must submit reports by end of the month.</li>
+            <li><strong>Team Meeting:</strong> Don't forget the weekly team meeting this Friday at 10 AM.</li>
+            <li><strong>System Maintenance:</strong> Scheduled maintenance for next weekend. Expect downtime.</li>
+        </ul>
+    </div>
+
+    <!-- Group Messaging Section -->
+    <div class="group-chat">
+        <h2>Group Messaging</h2>
+        <ul>
+            <li class="message-item">
+                <div class="sender">John Doe</div>
+                <div class="message">Hey team, remember to update your tasks for this week!</div>
+                <div class="timestamp">10:30 AM</div>
+            </li>
+            <li class="message-item">
+                <div class="sender">Jane Smith</div>
+                <div class="message">Sure! I'll get on it right away.</div>
+                <div class="timestamp">10:32 AM</div>
+            </li>
+            <li class="message-item">
+                <div class="sender">David Brown</div>
+                <div class="message">I have already updated mine. All tasks are in progress.</div>
+                <div class="timestamp">10:35 AM</div>
+            </li>
+        </ul>
+        <textarea class="message-box" placeholder="Write your message..."></textarea>
+        <button class="send-btn">Send</button>
+    </div>
+
+    <!-- Individual Messaging Section -->
+    <div class="individual-chat">
+        <h2>Individual Messaging</h2>
+        <ul>
+            <li class="message-item">
+                <div class="sender">John Doe</div>
+                <div class="message">How's the report coming along?</div>
+                <div class="timestamp">9:00 AM</div>
+            </li>
+            <li class="message-item">
+                <div class="sender">You</div>
+                <div class="message">Almost done, just reviewing the final draft.</div>
+                <div class="timestamp">9:02 AM</div>
+            </li>
+        </ul>
+        <textarea class="message-box" placeholder="Write your message..."></textarea>
+        <button class="send-btn">Send</button>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Detail Screen</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .product-overview {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .product-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .product-details {
+            flex: 1;
+        }
+
+        .metrics {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .metric {
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+            margin: 0 10px;
+        }
+
+        .metric:first-child {
+            margin-left: 0;
+        }
+
+        .metric:last-child {
+            margin-right: 0;
+        }
+
+        .chart {
+            width: 100%;
+            height: 200px;
+            margin-top: 20px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .edit {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .reorder {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .export {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Product Details</h1>
+
+        <!-- Product Overview -->
+        <div class="section">
+            <div class="section-title">Product Overview</div>
+            <div class="product-overview">
+                <img src="product-image.jpg" alt="Product Image" class="product-image">
+                <div class="product-details">
+                    <p><strong>Product Name:</strong> Wireless Earbuds Pro</p>
+                    <p><strong>Product ID:</strong> #PRD001</p>
+                    <p><strong>Stock Status:</strong> In Stock</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sales Metrics -->
+        <div class="section">
+            <div class="section-title">Sales Metrics</div>
+            <div class="metrics">
+                <div class="metric">
+                    <p><strong>Units Sold</strong></p>
+                    <p>428</p>
+                </div>
+                <div class="metric">
+                    <p><strong>Revenue</strong></p>
+                    <p>$85,600</p>
+                </div>
+                <div class="metric">
+                    <p><strong>Target Achievement</strong></p>
+                    <p>142%</p>
+                </div>
+                <div class="metric">
+                    <p><strong>Growth</strong></p>
+                    <p>+24.8%</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Chart -->
+        <div class="section">
+            <div class="section-title">Sales Trends</div>
+            <canvas id="salesChart" class="chart"></canvas>
+        </div>
+
+        <!-- Actions -->
+        <div class="section actions">
+            <button class="button edit">Edit Product Details</button>
+            <button class="button reorder">Reorder Stock</button>
+            <button class="button export">Export Report</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        const salesChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                datasets: [{
+                    label: 'Sales Trends',
+                    data: [120, 150, 180, 200, 250],
+                    borderColor: '#4CAF50',
+                    fill: false,
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

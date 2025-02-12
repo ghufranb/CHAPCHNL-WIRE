@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Addmin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Basic Styles for Layout */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            padding: 20px;
+        }
+        .sidebar {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+        }
+        .sidebar h2 {
+            text-align: center;
+            color: #fff;
+        }
+        .sidebar a {
+            color: white;
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+        .card h2 {
+            margin-top: 0;
+        }
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .col {
+            flex: 1;
+            margin-right: 20px;
+        }
+        .col:last-child {
+            margin-right: 0;
+        }
+        .metrics-box {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .metrics-box h3 {
+            margin-top: 0;
+            font-size: 18px;
+        }
+        .metrics-box p {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .table th, .table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .table td {
+            background-color: #f9f9f9;
+        }
+        .table .actions button {
+            padding: 5px 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .card-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .chart-container {
+            flex: 1;
+            margin-right: 20px;
+        }
+        .chart-container:last-child {
+            margin-right: 0;
+        }
+        .employee-list {
+            margin-top: 20px;
+        }
+        .employee-list td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        .employee-list th {
+            padding: 10px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
+        .employee-list .actions button {
+            padding: 5px 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .view-all-btn {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .view-all-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Admin Dashboard</h2>
+        <a href="#">Dashboard</a>
+        <a href="#">Employee Performance</a>
+        <a href="#">Service Sales</a>
+        <a href="#">Product Sales</a>
+        <a href="#">Customer Reviews</a>
+        <a href="#">Commission & Payroll</a>
+        <a href="#">Branch Insights</a>
+        <a href="#">Employee Goals</a>
+    </div>
+
+    <div class="content">
+        <!-- Key Metrics Overview -->
+        <div class="row">
+            <!-- Employee Performance -->
+            <div class="col">
+                <div class="metrics-box">
+                    <h3>Employee Performance</h3>
+                    <p>Total Employees: 120</p>
+                    <p>Total Sales: $200,000</p>
+                    <p>Average Rating: 4.5/5</p>
+                </div>
+            </div>
+
+            <!-- Service & Product Sales -->
+            <div class="col">
+                <div class="metrics-box">
+                    <h3>Service & Product Sales</h3>
+                    <p>Total Service Sales: $150,000</p>
+                    <p>Total Product Sales: $50,000</p>
+                    <p>Upsell Rate: 30%</p>
+                </div>
+            </div>
+
+            <!-- Commission & Payroll -->
+            <div class="col">
+                <div class="metrics-box">
+                    <h3>Commission & Payroll</h3>
+                    <p>Total Commission Paid: $15,000</p>
+                    <p>Total Payroll: $100,000</p>
+                    <p>Average Commission per Employee: $150</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="card-container">
+            <!-- Service Sales Chart -->
+            <div class="chart-container">
+                <div class="card">
+                    <h2>Service Sales Overview</h2>
+                    <canvas id="serviceSalesChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Google Reviews Chart -->
+            <div class="chart-container">
+                <div class="card">
+                    <h2>Customer Reviews</h2>
+                    <canvas id="googleReviewsChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Google Reviews & Customer Satisfaction -->
+        <div class="row">
+            <div class="col">
+                <div class="metrics-box">
+                    <h3>Google Reviews</h3>
+                    <p>Total Reviews: 350</p>
+                    <p>Average Rating: 4.7/5</p>
+                    <p>Best Rated Employee: John Doe</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Performing Employees -->
+        <div class="card">
+            <h2>Top Performing Employees</h2>
+            <table class="employee-list">
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Branch</th>
+                        <th>Service Sales</th>
+                        <th>Product Sales</th>
+                        <th>Commission</th>
+                        <th>Google Review</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Jane Doe</td>
+                        <td>Branch A</td>
+                        <td>$10,000</td>
+                        <td>$2,000</td>
+                        <td>$800</td>
+                        <td>4.8</td>
+                    </tr>
+                    <tr>
+                        <td>John Smith</td>
+                        <td>Branch B</td>
+                        <td>$8,000</td>
+                        <td>$1,500</td>
+                        <td>$700</td>
+                        <td>4.6</td>
+                    </tr>
+                    <tr>
+                        <td>Alice Johnson</td>
+                        <td>Branch C</td>
+                        <td>$12,000</td>
+                        <td>$3,000</td>
+                        <td>$1,000</td>
+                        <td>4.7</td>
+                    </tr>
+                    <tr>
+                        <td>Bob Martin</td>
+                        <td>Branch D</td>
+                        <td>$7,000</td>
+                        <td>$1,200</td>
+                        <td>$600</td>
+                        <td>4.5</td>
+                    </tr>
+                    <tr>
+                        <td>Emma White</td>
+                        <td>Branch A</td>
+                        <td>$9,000</td>
+                        <td>$2,500</td>
+                        <td>$750</td>
+                        <td>4.9</td>
+                    </tr>
+                </tbody>
+            </table>
+            <a href="#" class="view-all-btn">View All</a>
+        </div>
+    </div>
+
+    <script>
+        // Sample Chart.js data
+        var serviceSalesChart = new Chart(document.getElementById('serviceSalesChart'), {
+            type: 'bar',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May'],
+                datasets: [{
+                    label: 'Service Sales ($)',
+                    data: [5000, 8000, 12000, 7000, 10000],
+                    backgroundColor: '#4CAF50',
+                    borderColor: '#4CAF50',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        var googleReviewsChart = new Chart(document.getElementById('googleReviewsChart'), {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May'],
+                datasets: [{
+                    label: 'Google Reviews (Average Rating)',
+                    data: [4.5, 4.6, 4.7, 4.5, 4.8],
+                    borderColor: '#FFA500',
+                    backgroundColor: 'rgba(255, 165, 0, 0.2)',
+                    fill: true,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

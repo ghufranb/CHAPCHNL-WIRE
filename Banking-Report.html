@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banking Reports - Admin Panel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .report-section {
+            margin-top: 40px;
+        }
+        /* Flexbox container for the heading and button */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .report-section h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .export-options {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .export-options button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .export-options button:hover {
+            background-color: #2980b9;
+        }
+        /* Button Styling for Till Start / Stop / Handover */
+        .popup-btn {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .popup-btn:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Banking Reports</h1>
+
+        <!-- Till Start / Stop / Handover Button and Heading -->
+        <section class="report-section">
+            <div class="section-header">
+                <h2>Till Float Report</h2>
+                <button class="popup-btn" id="openPopupBtn">Till Start / Stop / Handover</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>Float Start</th>
+                        <th>Float Adjustments</th>
+                        <th>Float End</th>
+                        <th>Date/Time</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>John Doe</td>
+                        <td>$500</td>
+                        <td>+$100 (Adjustment)</td>
+                        <td>$600</td>
+                        <td>2025-01-25 08:00 AM</td>
+                        <td><button>Edit</button><button>Delete</button></td>
+                    </tr>
+                    <tr>
+                        <td>Jane Smith</td>
+                        <td>$300</td>
+                        <td>-$50 (Adjustment)</td>
+                        <td>$250</td>
+                        <td>2025-01-25 09:00 AM</td>
+                        <td><button>Edit</button><button>Delete</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Handover Report -->
+        <section class="report-section">
+            <h2>Handover Report</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>Amount Handed Over</th>
+                        <th>Receiving Employee</th>
+                        <th>Handover Time</th>
+                        <th>Comments</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>John Doe</td>
+                        <td>$200</td>
+                        <td>Emma Johnson</td>
+                        <td>2025-01-25 10:00 AM</td>
+                        <td>Cash transfer for the day</td>
+                    </tr>
+                    <tr>
+                        <td>Jane Smith</td>
+                        <td>$150</td>
+                        <td>Michael Lee</td>
+                        <td>2025-01-25 11:30 AM</td>
+                        <td>Final handover of the shift</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- End-of-Day Report -->
+        <section class="report-section">
+            <h2>End-of-Day Report</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Total Cash</th>
+                        <th>Sales Breakdown</th>
+                        <th>Discrepancies</th>
+                        <th>Till Float Status</th>
+                        <th>Closing Balance</th>
+                        <th>Manager Review</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>$900</td>
+                        <td>Cash Sales: $800, Card Payments: $100</td>
+                        <td>$0 (No Discrepancies)</td>
+                        <td>Correct</td>
+                        <td>$900</td>
+                        <td>Approved by Sarah</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Cash Envelope Tracking -->
+        <section class="report-section">
+            <div class="section-header">
+            <h2>Cash Envelope Tracking</h2>
+            <button class="popup-btn" id="openPopupBtn2">Create Envelope</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Envelope ID</th>
+                        <th>Amount</th>
+                        <th>Employee Responsible</th>
+                        <th>Location</th>
+                        <th>Movement History</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#ENVP001</td>
+                        <td>$500</td>
+                        <td>John Doe</td>
+                        <td>Safe</td>
+                        <td>Transferred to Emma - 2025-01-25</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Reconciliation Report -->
+        <section class="report-section">
+            <h2>Reconciliation Report</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cash vs Sales</th>
+                        <th>Discrepancies</th>
+                        <th>Adjustments</th>
+                        <th>Final Reconciliation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>$900 vs $900</td>
+                        <td>$0</td>
+                        <td>None</td>
+                        <td>Reconciled</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Export Options -->
+        <div class="export-options">
+            <button onclick="exportReport()">Export as PDF</button>
+            <button onclick="exportReport()">Export as CSV</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to open popup with Banking-Form2.html
+        document.getElementById("openPopupBtn").addEventListener("click", function() {
+            window.open("Banking-Form2.html", "popupWindow", "width=800,height=600,scrollbars=yes");
+        });
+
+        document.getElementById("openPopupBtn2").addEventListener("click", function() {
+            window.open("Create-Evelope-Form.html", "popupWindow", "width=800,height=600,scrollbars=yes");
+        });
+        // Placeholder function for export options
+        function exportReport() {
+            alert("Export functionality will be implemented.");
+        }
+    </script>
+
+</body>
+</html>

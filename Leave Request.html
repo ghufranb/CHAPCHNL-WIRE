@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Leave Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            padding: 20px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+        .leave-quota, .leave-history {
+            margin-bottom: 15px;
+        }
+        .leave-history ul {
+            list-style: none;
+            padding: 0;
+        }
+        .leave-history li {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .status-approved {
+            color: green;
+        }
+        .status-pending {
+            color: orange;
+        }
+        .status-rejected {
+            color: red;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card leave-quota">
+            <h2>Your Leave Quota</h2>
+            <p>You have <strong>10</strong> leave days remaining.</p>
+        </div>
+
+        <div class="card apply-leave">
+            <h2>Apply for Leave</h2>
+            <form action="#">
+                <label for="leaveType">Leave Type:</label>
+                <select id="leaveType" name="leaveType">
+                    <option value="sick">Sick Leave</option>
+                    <option value="vacation">Vacation Leave</option>
+                </select>
+                <br><br>
+                <label for="startDate">Start Date:</label>
+                <input type="date" id="startDate" name="startDate">
+                <br><br>
+                <label for="endDate">End Date:</label>
+                <input type="date" id="endDate" name="endDate">
+                <br><br>
+                <button type="submit" class="btn">Submit Leave Request</button>
+            </form>
+        </div>
+
+        <div class="card leave-history">
+            <h2>Your Leave History</h2>
+            <ul>
+                <li>
+                    <span>Vacation Leave - 2025-01-01 to 2025-01-05</span>
+                    <span class="status-approved">Approved</span>
+                </li>
+                <li>
+                    <span>Sick Leave - 2025-01-10 to 2025-01-12</span>
+                    <span class="status-pending">Pending</span>
+                </li>
+                <li>
+                    <span>Vacation Leave - 2025-02-15 to 2025-02-18</span>
+                    <span class="status-rejected">Rejected</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

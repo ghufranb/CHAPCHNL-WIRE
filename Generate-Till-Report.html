@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Till Report</title>
+    <style>
+        /* ... (Existing CSS styles) ... */
+    </style>
+</head>
+<body>
+
+    <h1>Shop Till Report</h1>
+
+    <form id="tillReportForm">
+        <table>
+            <tr class="section">
+                </tr>
+
+            <tr class="section">
+                </tr>
+
+            <tr>
+                <th colspan="2">Actual Ending Float (AED):</th>
+                <td><input type="number" id="endingFloat" name="endingFloat" required></td>
+            </tr>
+            <tr>
+                <th colspan="2">Expected Ending Float (AED):</th>
+                <td><input type="number" id="expectedEndingFloat" name="expectedEndingFloat" readonly></td>
+            </tr>
+            <tr>
+                <th colspan="2">Discrepancy (AED):</th>
+                <td><input type="number" id="discrepancy" name="discrepancy" readonly></td>
+            </tr>
+            <tr>
+                <th colspan="2">Notes/Explanation:</th>
+                <td><textarea id="notes" name="notes">No issues.</textarea></td>
+            </tr>
+            <tr>
+                <th colspan="2">Prepared By:</th>
+                <td><input type="text" id="preparedBy" name="preparedBy" value="John Smith" required></td>
+            </tr>
+            <tr>
+                <th colspan="2">Verified By:</th>
+                <td><input type="text" id="verifiedBy" name="verifiedBy" value="Jane Doe" required></td>
+            </tr>
+
+            <tr>
+                <th colspan="2">Handed Over By:</th>
+                <td><input type="text" id="handedOverBy" name="handedOverBy" required></td>
+            </tr>
+            <tr>
+                <th colspan="2">Received By:</th>
+                <td><input type="text" id="receivedBy" name="receivedBy" required></td>
+            </tr>
+            <tr>
+                <th colspan="2">Handover Time:</th>
+                <td><input type="datetime-local" id="handoverTime" name="handoverTime"></td>
+            </tr>
+
+            <tr>
+                <td colspan="2"></td>
+                <td>
+                    <button type="button" onclick="calculateTillReport()">Calculate</button>
+                    <button type="button" onclick="closeDay()">Close Day</button>  </td>
+            </tr>
+        </table>
+    </form>
+
+    <div id="reportOutput"></div>
+
+    <script>
+        // ... (Existing JavaScript functions: toggleOtherInput, addSalesRow, addExpensesRow, deleteRow) ...
+
+        function calculateTillReport() {
+            // ... (Existing calculateTillReport function logic) ...
+
+            // Add handover information to the report:
+            const handedOverBy = document.getElementById("handedOverBy").value;
+            const receivedBy = document.getElementById("receivedBy").value;
+            const handoverTime = document.getElementById("handoverTime").value;
+
+            reportOutput.innerHTML += `
+                <p><strong>Handed Over By:</strong> ${handedOverBy}</p>
+                <p><strong>Received By:</strong> ${receivedBy}</p>
+                <p><strong>Handover Time:</strong> ${handoverTime || "Not Specified"}</p> 
+            `;
+        }
+
+
+        function closeDay() {
+            calculateTillReport(); // First, calculate the report
+
+            // Perform Day Close actions here:
+            const reportDate = document.getElementById("reportDate").value;
+            // ... (Get other necessary data from the form) ...
+
+            // Example:  You might want to disable the form after closing:
+            // document.getElementById("tillReportForm").elements.forEach(element => element.disabled = true);
+
+            //  In a real app you would send this data to your server to store it
+            // and perform any necessary end-of-day tasks.  This example just
+            // shows an alert.
+            alert("Day closed for " + reportDate + ".  Data would now be sent to the server.");
+
+            // Optionally, you could add code to generate summary reports, etc.
+        }
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Notification Panel</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #333;
+        }
+
+        /* Create Notification Section */
+        #create-notification {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        #add-template-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        #add-template-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Form Elements */
+        form div {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        textarea {
+            height: 150px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        /* Branch Selection (Hidden by Default) */
+        #branch-selection {
+            margin-top: 10px;
+        }
+
+        /* Notification History Section */
+        #notification-history {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #history-search {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* History Table */
+        #history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        #history-table th, #history-table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ccc;
+        }
+
+        #history-table th {
+            background-color: #f1f1f1;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 5px 10px;
+            font-size: 0.9em;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-right: 5px;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        /* Popup Styles */
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            width: 400px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup h3 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        #close-popup-btn {
+            background-color: #dc3545;
+        }
+
+        #close-popup-btn:hover {
+            background-color: #c82333;
+        }
+
+        /* Media Query for Mobile Devices */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            form div {
+                margin-bottom: 10px;
+            }
+
+            #history-search {
+                font-size: 0.9em;
+            }
+
+            button, #add-template-btn {
+                font-size: 0.9em;
+            }
+
+            #history-table th, #history-table td {
+                font-size: 0.9em;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Admin Notification Panel</h1>
+        </header>
+        
+        <section id="create-notification">
+            <h2>Create Notification</h2>
+
+            <form action="#" method="POST">
+                <!-- Notification Type -->
+                <div>
+                    <label for="notification-type">Notification Type</label>
+                    <select id="notification-type">
+                        <option value="everyone">Everyone</option>
+                        <option value="employee">Specific Employee</option>
+                        <option value="branch">Employees in Branch</option>
+                    </select>
+                </div>
+
+                <!-- Search field for employee (visible when "Specific Employee" is selected in Notification Type) -->
+                <div id="employee-search-container" style="display:none;">
+                    <label for="employee-search">Search Employee by Name</label>
+                    <input type="text" id="employee-search" placeholder="Type employee name...">
+                </div>
+
+                <!-- Branch selection (visible when "Branch" is selected in Notification Type) -->
+                <div id="branch-selection" style="display:none;">
+                    <label for="branch-select">Select Branch</label>
+                    <select id="branch-select">
+                        <option value="branch1">Branch 1</option>
+                        <option value="branch2">Branch 2</option>
+                        <option value="branch3">Branch 3</option>
+                    </select>
+                </div>
+
+                <!-- Template Selection -->
+                <div>
+                    <label for="template-select">Select Template</label>
+                    <select id="template-select">
+                        <option value="">Select Template</option>
+                        <option value="lateness">Lateness</option>
+                        <option value="birthday">Birthday</option>
+                        <option value="contract-renewal">Contract Renewal</option>
+                        <option value="generic">Generic</option>
+                    </select>
+                </div>
+
+                <!-- Custom Notification Content -->
+                <div>
+                    <label for="notification-content">Custom Notification</label>
+                    <textarea id="notification-content" placeholder="Type your notification..."></textarea>
+                </div>
+
+                <!-- Send Notification -->
+                <div>
+                    <button type="submit" id="send-notification-btn">Send Notification</button>
+                </div>
+            </form>
+	<a href="Notification-Template-Management.html">
+            <button id="add-template-btn">Add New Template</button>
+	</a>
+        </section>
+
+        <section id="notification-history">
+            <h2>Notification History</h2>
+            <div>
+                <label for="history-search">Search Notification History</label>
+                <input type="text" id="history-search" placeholder="Search...">
+            </div>
+            <table id="history-table">
+                <thead>
+                    <tr>
+                        <th>Notification Title</th>
+                        <th>Sent To</th>
+                        <th>Date Sent</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Lateness Alert</td>
+                        <td>John Doe</td>
+                        <td>2025-01-25</td>
+                        <td><button class="view-details-btn">View Details</button></td>
+                    </tr>
+                    <tr>
+                        <td>Birthday Reminder</td>
+                        <td>All Employees</td>
+                        <td>2025-01-24</td>
+                        <td><button class="view-details-btn">View Details</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <!-- Popup for Adding Template -->
+    <div id="add-template-popup" class="popup">
+        <div class="popup-content">
+            <h3>Add New Template</h3>
+            <label for="template-title">Template Title</label>
+            <input type="text" id="template-title" placeholder="Enter template title...">
+
+            <label for="template-content">Template Content</label>
+            <textarea id="template-content" placeholder="Enter template content..."></textarea>
+
+            <div>
+                <button id="save-template-btn">Save Template</button>
+                <button id="close-popup-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup for View Notification Details -->
+    <div id="view-details-popup" class="popup">
+        <div class="popup-content">
+            <h3>Notification Details</h3>
+            <p><strong>Title:</strong> Lateness Alert</p>
+            <p><strong>Sent To:</strong> John Doe</p>
+            <p><strong>Date Sent:</strong> 2025-01-25</p>
+            <p><strong>Content:</strong> Please be on time for your shifts.</p>
+
+            <button id="close-details-btn">Close</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('notification-type').addEventListener('change', function () {
+            const employeeSearchContainer = document.getElementById('employee-search-container');
+            const branchSelection = document.getElementById('branch-selection');
+            if (this.value === 'employee') {
+                employeeSearchContainer.style.display = 'block';
+                branchSelection.style.display = 'none';
+            } else if (this.value === 'branch') {
+                employeeSearchContainer.style.display = 'none';
+                branchSelection.style.display = 'block';
+            } else {
+                employeeSearchContainer.style.display = 'none';
+                branchSelection.style.display = 'none';
+            }
+        });
+
+        document.querySelectorAll('.view-details-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                document.getElementById('view-details-popup').style.display = 'flex';
+            });
+        });
+
+        document.getElementById('close-details-btn').addEventListener('click', function () {
+            document.getElementById('view-details-popup').style.display = 'none';
+        });
+    </script>
+</body>
+</html>

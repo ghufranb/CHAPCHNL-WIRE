@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Training Screen</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding-top: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .status-bar div {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .training-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .training-item {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .training-item span {
+            font-size: 16px;
+        }
+        .training-item button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+        }
+        .training-item button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Training Dashboard</h1>
+            <p>View and manage your assigned training tasks</p>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div>
+                Assigned: <span id="assignedCount">0</span>
+            </div>
+            <div>
+                Completed: <span id="completedCount">0</span>
+            </div>
+            <div>
+                Remaining: <span id="remainingCount">0</span>
+            </div>
+        </div>
+
+        <!-- Training List -->
+        <ul id="trainingList" class="training-list">
+            <!-- Example Item -->
+            <li class="training-item">
+                <span>Training 1</span>
+                <button onclick="startTraining(1)">Start</button>
+            </li>
+            <li class="training-item">
+                <span>Training 2</span>
+                <button onclick="startTraining(2)">Start</button>
+            </li>
+            <li class="training-item">
+                <span>Training 3</span>
+                <button onclick="startTraining(3)">Start</button>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        let assigned = 3;
+        let completed = 0;
+        let remaining = assigned - completed;
+
+        // Function to update the status bar
+        function updateStatus() {
+            document.getElementById('assignedCount').textContent = assigned;
+            document.getElementById('completedCount').textContent = completed;
+            document.getElementById('remainingCount').textContent = remaining;
+        }
+
+        // Function to start a training (simulate completing it)
+        function startTraining(trainingId) {
+            // You can customize the behavior based on training completion logic
+            let trainingButton = document.querySelectorAll('.training-item button')[trainingId - 1];
+            trainingButton.disabled = true;
+            trainingButton.textContent = "Completed";
+
+            completed++;
+            remaining--;
+            updateStatus();
+        }
+
+        // Initialize status on page load
+        updateStatus();
+    </script>
+</body>
+</html>

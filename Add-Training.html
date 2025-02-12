@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Training</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+        .form-container h2 {
+            text-align: center;
+        }
+        .input-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            padding: 0 10px;
+        }
+        .input-group label {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .input-group input, .input-group textarea, .input-group select {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .input-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .step-container {
+            margin-top: 30px;
+        }
+        .step-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .step {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+        .remove-step {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            cursor: pointer;
+            color: red;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .add-step-button {
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+        .add-step-button:hover {
+            background-color: #45a049;
+        }
+        .step-preview {
+            margin-top: 10px;
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+            .add-step-button {
+                width: 100%;
+                padding: 15px;
+            }
+        }
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 15px;
+            }
+            .input-group label {
+                font-size: 12px;
+            }
+            .input-group input, .input-group textarea {
+                font-size: 12px;
+                padding: 8px;
+            }
+            .step {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Add New Training</h1>
+        </div>
+
+        <!-- Add Training Form -->
+        <div class="form-container">
+            <form id="addTrainingForm">
+                <!-- Training Name -->
+                <div class="input-group">
+                    <label for="trainingName">Training Name</label>
+                    <input type="text" id="trainingName" name="trainingName" placeholder="Enter training name" required>
+                </div>
+
+                <!-- Training Description -->
+                <div class="input-group">
+                    <label for="trainingDescription">Training Description</label>
+                    <textarea id="trainingDescription" name="trainingDescription" placeholder="Enter training description" required></textarea>
+                </div>
+
+                <!-- Add Training Steps -->
+                <div class="step-container">
+                    <h3>Training Steps</h3>
+
+                    <!-- Step Grid -->
+                    <div class="step-grid" id="stepsContainer">
+                        <div class="step" id="step-1">
+                            <div class="remove-step" onclick="removeStepForm(1)">X</div>
+                            <div class="input-group">
+                                <label for="stepName">Step Name</label>
+                                <input type="text" name="stepName[]" value="Section Hair Parting" readonly>
+                            </div>
+                            <div class="input-group">
+                                <label for="stepDescription">Step Description</label>
+                                <textarea name="stepDescription[]" readonly>Use a comb to create a clean, straight side part. Ensure the parting aligns with the desired side.</textarea>
+                            </div>
+                            <div class="input-group">
+                                <label for="stepMedia">Upload Media (Optional)</label>
+                                <input type="file" name="stepMedia[]">
+                            </div>
+                        </div>
+                        <div class="step" id="step-2">
+                            <div class="remove-step" onclick="removeStepForm(2)">X</div>
+                            <div class="input-group">
+                                <label for="stepName">Step Name</label>
+                                <input type="text" name="stepName[]" value="Trimming Around the Part" readonly>
+                            </div>
+                            <div class="input-group">
+                                <label for="stepDescription">Step Description</label>
+                                <textarea name="stepDescription[]" readonly>Trim the hair on either side of the parting using clippers or scissors for clean edges.</textarea>
+                            </div>
+                            <div class="input-group">
+                                <label for="stepMedia">Upload Media (Optional)</label>
+                                <input type="file" name="stepMedia[]">
+                            </div>
+                        </div>
+                        <div class="step" id="step-3">
+                            <div class="remove-step" onclick="removeStepForm(3)">X</div>
+                            <div class="input-group">
+                                <label for="stepName">Step Name</label>
+                                <input type="text" name="stepName[]" value="Styling the Side Part" readonly>
+                            </div>
+                            <div class="input-group">
+                                <label for="stepDescription">Step Description</label>
+                                <textarea name="stepDescription[]" readonly>Apply a styling product such as gel or pomade. Comb through to set the side part in place.</textarea>
+                            </div>
+                            <div class="input-group">
+                                <label for="stepMedia">Upload Media (Optional)</label>
+                                <input type="file" name="stepMedia[]">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Button to Add More Steps -->
+                    <button type="button" class="add-step-button" onclick="addStepForm()">Add More Steps</button>
+                </div>
+
+                <!-- Submit Training Form -->
+                <br><br>
+                <button type="submit" class="add-step-button">Save Training</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Function to add more training step forms
+        function addStepForm() {
+            const stepsContainer = document.getElementById('stepsContainer');
+            const newStepId = Date.now();  // Unique ID for each step
+
+            const newStepForm = `
+                <div class="step" id="step-${newStepId}">
+                    <div class="remove-step" onclick="removeStepForm(${newStepId})">X</div>
+                    <div class="input-group">
+                        <label for="stepName">Step Name</label>
+                        <input type="text" name="stepName[]" placeholder="Enter step name" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="stepDescription">Step Description</label>
+                        <textarea name="stepDescription[]" placeholder="Enter step description" required></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label for="stepMedia">Upload Media (Optional)</label>
+                        <input type="file" name="stepMedia[]">
+                    </div>
+                </div>
+            `;
+            stepsContainer.insertAdjacentHTML('beforeend', newStepForm);
+        }
+
+        // Function to remove a training step
+        function removeStepForm(stepId) {
+            const stepElement = document.getElementById(`step-${stepId}`);
+            if (stepElement) {
+                stepElement.remove();
+            }
+        }
+
+        // Handle training form submission
+        document.getElementById('addTrainingForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const trainingName = formData.get('trainingName');
+            const trainingDescription = formData.get('trainingDescription');
+            const stepNames = formData.getAll('stepName[]');
+            const stepDescriptions = formData.getAll('stepDescription[]');
+            const stepMedia = formData.getAll('stepMedia[]');
+
+            console.log("Training Name:", trainingName);
+            console.log("Training Description:", trainingDescription);
+            console.log("Steps:");
+            for (let i = 0; i < stepNames.length; i++) {
+                console.log(`Step ${i + 1}:`, {
+                    name: stepNames[i],
+                    description: stepDescriptions[i],
+                    media: stepMedia[i] ? stepMedia[i].name : 'No media uploaded'
+                });
+            }
+
+            alert('Training saved successfully!');
+        });
+    </script>
+</body>
+</html>

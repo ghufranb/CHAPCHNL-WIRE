@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Banking Report View</title>
+<style>
+body { font-family: sans-serif; }
+table {
+  width: 80%; /* Adjust as needed */
+  margin: 20px auto; /* Center the table */
+  border-collapse: collapse;
+}
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+th { background-color: #f0f0f0; } /* Light gray background for headers */
+caption {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+</style>
+</head>
+<body>
+
+  <h1>Banking Report</h1>
+
+  <div id="tillFloatReport" style="display:block;">  <table>
+    <caption>Till Float Report - 2024-10-27</caption>
+    <tr><th>Starting Balance</th><td>$500.00</td></tr>
+    <tr><th>$100 Bills</th><td>3</td></tr>
+    <tr><th>$50 Bills</th><td>5</td></tr>
+    <tr><th>$20 Bills</th><td>10</td></tr>
+    <tr><th>$10 Bills</th><td>15</td></tr>
+    <tr><th>$5 Bills</th><td>20</td></tr>
+    <tr><th>$1 Bills</th><td>50</td></tr>
+    <tr><th>Quarters</th><td>25</td></tr>
+    <tr><th>Dimes</th><td>50</td></tr>
+    <tr><th>Nickels</th><td>50</td></tr>
+    <tr><th>Pennies</th><td>100</td></tr>
+    <tr><th>Total</th><td>$787.50</td></tr>
+  </table>
+  </div>
+
+
+  <div id="endOfDayReport" style="display:none;">
+  <table>
+    <caption>End-of-Day Report - 2024-10-27</caption>
+    <tr><th>Starting Balance</th><td>$500.00</td></tr>
+    <tr><th>Sales</th><td>$1250.00</td></tr>
+    <tr><th>Refunds</th><td>$50.00</td></tr>
+    <tr><th>Ending Balance</th><td>$1600.00</td></tr>
+    <tr><th>Expected Balance</th><td>$1650.00</td></tr>
+    <tr><th>Over/Short</th><td>-$50.00</td></tr>
+  </table>
+  </div>
+
+    <div id="cashEnvelopeTrackingReport" style="display:none;">
+  <table>
+    <caption>Cash Envelope Tracking - Petty Cash</caption>
+    <tr><th>Starting Balance</th><td>$100.00</td></tr>
+    <tr><th>Deposits</th><td>$50.00</td></tr>
+    <tr><th>Withdrawals</th><td>$25.00</td></tr>
+    <tr><th>Current Balance</th><td>$125.00</td></tr>
+  </table>
+  </div>
+
+  <select id="reportSelect" onchange="showReport()">
+    <option value="tillFloat">Till Float Report</option>
+    <option value="endOfDay">End-of-Day Report</option>
+    <option value="cashEnvelopeTracking">Cash Envelope Tracking Report</option>
+    </select>
+
+  <script>
+    function showReport() {
+      const selectedReport = document.getElementById("reportSelect").value;
+      const reportDivs = {
+        tillFloat: document.getElementById("tillFloatReport"),
+        endOfDay: document.getElementById("endOfDayReport"),
+        cashEnvelopeTracking: document.getElementById("cashEnvelopeTrackingReport"),
+        // Add other report divs here
+      };
+
+      // Hide all reports first
+      for (const report in reportDivs) {
+        reportDivs[report].style.display = "none";
+      }
+
+      // Show the selected report
+      reportDivs[selectedReport].style.display = "block";
+    }
+  </script>
+
+</body>
+</html>

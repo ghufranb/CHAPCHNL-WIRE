@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Module - Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        nav {
+            width: 200px;
+            background-color: #333;
+            color: white;
+            position: fixed;
+            height: 100%;
+            padding-top: 1rem;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            padding: 0.8rem;
+            text-align: center;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+        nav ul li a:hover {
+            background-color: #575757;
+        }
+        main {
+            margin-left: 200px;
+            padding: 2rem;
+        }
+        .section {
+            background: white;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .section h2 {
+            margin-top: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 1rem;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f9;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Training Module - Admin Dashboard</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Employees</a></li>
+            <li><a href="#">Training Modules</a></li>
+            <li><a href="#">Reports</a></li>
+            <li><a href="#">Settings</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section class="section">
+            <h2>Overview</h2>
+            <p>Training Completion Statistics:</p>
+            <ul>
+                <li>Employees Completed: 45%</li>
+                <li>Employees In Progress: 30%</li>
+                <li>Upcoming Training: 5 Sessions</li>
+            </ul>
+            <button class="btn">+ Add Training Resource</button>
+            <button class="btn">Assign Training to Employees</button>
+            <button class="btn">View Reports</button>
+        </section>
+
+        <section class="section">
+            <h2>Training Progress</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Training Title</th>
+                        <th>Assigned Date</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                        <th>Progress (%)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>John Doe</td>
+                        <td>Conflict Management</td>
+                        <td>10-Jan-2025</td>
+                        <td>20-Jan-2025</td>
+                        <td>In Progress</td>
+                        <td>60%</td>
+                        <td><button class="btn">View Details</button></td>
+                    </tr>
+                    <tr>
+                        <td>Jane Smith</td>
+                        <td>Safety Training</td>
+                        <td>05-Jan-2025</td>
+                        <td>15-Jan-2025</td>
+                        <td>Completed</td>
+                        <td>100%</td>
+                        <td><button class="btn">View Details</button></td>
+                    </tr>
+                    <tr>
+                        <td>Alex Carter</td>
+                        <td>Leadership Skills</td>
+                        <td>18-Jan-2025</td>
+                        <td>28-Jan-2025</td>
+                        <td>Not Started</td>
+                        <td>0%</td>
+                        <td><button class="btn">Assign</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="section">
+            <h2>Upload Training Resources</h2>
+            <form>
+                <div class="form-group">
+                    <label for="title">Resource Title:</label>
+                    <input type="text" id="title" name="title">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="file">Upload File:</label>
+                    <input type="file" id="file" name="file">
+                </div>
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <select id="category" name="category">
+                        <option value="soft-skills">Soft Skills</option>
+                        <option value="technical-skills">Technical Skills</option>
+                        <option value="safety">Safety</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="assign-all" name="assign-all">
+                    <label for="assign-all">Assign to All Employees</label>
+                </div>
+                <button type="submit" class="btn">Submit</button>
+            </form>
+        </section>
+
+        <section class="section">
+            <h2>Uploaded Resources</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Resource Name</th>
+                        <th>Category</th>
+                        <th>Uploaded By</th>
+                        <th>Upload Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Conflict Management</td>
+                        <td>Soft Skills</td>
+                        <td>Admin</td>
+                        <td>08-Jan-2025</td>
+                        <td><button class="btn">Edit</button> <button class="btn">Delete</button></td>
+                    </tr>
+                    <tr>
+                        <td>Safety Training</td>
+                        <td>Workplace Safety</td>
+                        <td>Admin</td>
+                        <td>12-Jan-2025</td>
+                        <td><button class="btn">Edit</button> <button class="btn">Delete</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>

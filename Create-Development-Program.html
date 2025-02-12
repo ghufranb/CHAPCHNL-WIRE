@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Development Program</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"], input[type="date"], select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .form-section {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Create Development Program</h2>
+
+        <form action="#" method="POST">
+            <!-- Employee Name Section -->
+            <div class="form-section">
+                <label for="employeeName">Employee Name:</label>
+                <input type="text" id="employeeName" name="employeeName" required><br>
+            </div>
+
+            <!-- Development Goals Section -->
+            <div class="form-section">
+                <label for="developmentGoals">Development Goals:</label>
+                <textarea id="developmentGoals" name="developmentGoals" rows="4" required></textarea><br>
+            </div>
+
+            <!-- Timeline Section -->
+            <div class="form-section">
+                <label for="timelineStart">Timeline (Start Date):</label>
+                <input type="date" id="timelineStart" name="timelineStart" required><br>
+
+                <label for="timelineEnd">Timeline (End Date):</label>
+                <input type="date" id="timelineEnd" name="timelineEnd" required><br>
+            </div>
+
+            <!-- Status Section -->
+            <div class="form-section">
+                <label for="status">Status:</label>
+                <select id="status" name="status" required>
+                    <option value="Active">Active</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Pending">Pending</option>
+                </select><br>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit">Create Development Program</button>
+        </form>
+    </div>
+</body>
+</html>

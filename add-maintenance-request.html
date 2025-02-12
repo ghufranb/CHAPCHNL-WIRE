@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Form</title>
+</head>
+<body>
+    <h2>Request Information</h2>
+    <form action="/submit-request" method="post" enctype="multipart/form-data">
+        <label for="docketId">Docket ID:</label>
+        <input type="text" id="docketId" name="docketId" value="#001" readonly><br><br>
+
+        <label for="dateSubmitted">Date Submitted:</label>
+        <input type="date" id="dateSubmitted" name="dateSubmitted" value="2025-01-25" readonly><br><br>
+
+        <label for="requester">Requester:</label>
+        <input type="text" id="requester" name="requester" value="John Doe" readonly><br><br>
+
+        <label for="technician">Technician:</label>
+        <input type="text" id="technician" name="technician" value="Jane Smith" readonly><br><br>
+
+        <label for="issueDescription">Issue Description:</label>
+        <input type="text" id="issueDescription" name="issueDescription" value="Broken Pipe" readonly><br><br>
+
+        <label for="priority">Priority:</label>
+        <select id="priority" name="priority">
+            <option value="High" selected>High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+        </select><br><br>
+
+        <label for="status">Status:</label>
+        <select id="status" name="status">
+            <option value="In Progress" selected>In Progress</option>
+            <option value="Completed">Completed</option>
+            <option value="Pending">Pending</option>
+        </select><br><br>
+
+        <label for="uploadedPhotos">Uploaded Photos:</label>
+        <input type="file" id="uploadedPhotos" name="uploadedPhotos"><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

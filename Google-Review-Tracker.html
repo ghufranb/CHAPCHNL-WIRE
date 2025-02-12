@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Branches Google Review Tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f7f8fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2980b9, #6dd5fa);
+            color: #fff;
+            text-align: center;
+            padding: 40px 20px;
+            border-radius: 8px 8px 0 0;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 36px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            width: 95%;
+            margin: 30px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 500;
+            color: #34495e;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .goal-setting, .performance-comparison, .team-metrics {
+            margin-bottom: 40px;
+        }
+
+        .month-selector {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .month-selector select {
+            width: 180px;
+            font-size: 16px;
+            padding: 6px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f4f6f9;
+        }
+
+        .goal-setting table, .performance-comparison table, .team-metrics table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        th, td {
+            padding: 12px 16px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #ecf0f1;
+        }
+
+        .view-more-button {
+            background-color: #2980b9;
+            color: #fff;
+            font-size: 16px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 15px 0;
+            width: 100%;
+        }
+
+        .view-more-button:hover {
+            background-color: #3498db;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .export-button {
+            background-color: #e67e22;
+            font-size: 16px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .export-button:hover {
+            background-color: #d35400;
+        }
+
+        .chart-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 30px auto;
+        }
+
+        .left-column {
+            width: 40%;
+            padding-right: 20px;
+            border-right: 2px solid #ddd;
+            float: left;
+        }
+
+        .right-column {
+            width: 55%;
+            padding-left: 20px;
+            float: left;
+        }
+
+        .top-performers-list {
+            margin-bottom: 30px;
+        }
+
+        .top-performers-list h4 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #34495e;
+            margin-bottom: 10px;
+        }
+
+        .performer-item {
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 8px;
+        }
+
+        .performer-item span {
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            header h1 {
+                font-size: 28px;
+            }
+
+            .goal-setting, .performance-comparison, .team-metrics {
+                margin-bottom: 30px;
+            }
+
+            .month-selector select {
+                width: 150px;
+            }
+
+            .goal-setting table, .performance-comparison table, .team-metrics table {
+                font-size: 14px;
+            }
+
+            .view-more-button {
+                width: auto;
+            }
+
+            .left-column, .right-column {
+                width: 100%;
+                float: none;
+                padding: 0;
+            }
+
+            .performer-item {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Google Review Tracker for Branches</h1>
+</header>
+
+<div class="container">
+    <!-- Month Selector -->
+    <div class="month-selector">
+        <label for="month" style="font-size: 18px; font-weight: 500; margin-right: 15px;">Select Month: </label>
+        <select id="month" name="month" onchange="showReport()">
+            <option value="January">January</option>
+            <option value="February">February</option>
+            <option value="March">March</option>
+            <option value="April">April</option>
+            <option value="May">May</option>
+            <option value="June">June</option>
+            <option value="July">July</option>
+            <option value="August">August</option>
+            <option value="September">September</option>
+            <option value="October">October</option>
+            <option value="November">November</option>
+            <option value="December">December</option>
+        </select>
+    </div>
+
+    <!-- Monthly Goal Setting & Review Tracking -->
+    <div class="goal-setting">
+        <div class="section-title">Monthly Goal Setting & Review Tracking</div>
+        <div>
+            <h3>Branch Goals for <span id="selected-month">January</span></h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Branch Goal</th>
+                        <th>Reviews Achieved</th>
+                        <th>Progress</th>
+                    </tr>
+                </thead>
+                <tbody id="Branch-goal-table">
+                    <!-- Dynamic content will be populated here -->
+                </tbody>
+            </table>
+
+            <h3>Employee Goals for <span id="selected-month-employee">January</span></h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee Goal</th>
+                        <th>Reviews Achieved</th>
+                        <th>Progress</th>
+                    </tr>
+                </thead>
+                <tbody id="employee-goal-table">
+                    <!-- Dynamic content will be populated here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Branch Performance Comparison (Top 5) -->
+    <div class="performance-comparison">
+        <div class="section-title">Branch Performance vs Goal</div>
+        <div class="left-column">
+            <div class="top-performers-list">
+                <h4>Top Performing Branchs</h4>
+                <div class="performer-item"><span>Downtown</span>: 80 reviews</div>
+                <div class="performer-item"><span>Uptown</span>: 75 reviews</div>
+                <div class="performer-item"><span>Westside</span>: 70 reviews</div>
+                <div class="performer-item"><span>Eastside</span>: 65 reviews</div>
+                <div class="performer-item"><span>Central</span>: 60 reviews</div>
+            </div>
+        </div>
+        <div class="right-column">
+            <div class="chart-container">
+                <canvas id="branchPerformanceChart"></canvas>
+            </div>
+        </div>
+        <button class="view-more-button" onclick="viewMoreBranches()">View More Branches</button>
+    </div>
+
+    <!-- Employee Performance Comparison -->
+    <div class="performance-comparison">
+        <div class="section-title">Employee Performance vs Goal</div>
+        <div class="left-column">
+            <div class="top-performers-list">
+                <h4>Top Performing Employees</h4>
+                <div class="performer-item"><span>Employee 1</span>: 30 reviews</div>
+                <div class="performer-item"><span>Employee 2</span>: 28 reviews</div>
+                <div class="performer-item"><span>Employee 3</span>: 25 reviews</div>
+                <div class="performer-item"><span>Employee 4</span>: 22 reviews</div>
+                <div class="performer-item"><span>Employee 5</span>: 20 reviews</div>
+            </div>
+        </div>
+        <div class="right-column">
+            <div class="chart-container">
+                <canvas id="employeePerformanceChart"></canvas>
+            </div>
+        </div>
+        <button class="view-more-button" onclick="viewMoreEmployees()">View More Employees</button>
+    </div>
+
+    <!-- Export Button -->
+    <div class="button-container">
+        <button class="export-button" onclick="exportReport()">Export Report</button>
+    </div>
+</div>
+
+<script>
+    // Function to display report for selected month
+    function showReport() {
+        const month = document.getElementById("month").value;
+        document.getElementById("selected-month").textContent = month;
+        document.getElementById("selected-month-employee").textContent = month;
+        updateGoalTables(month);
+    }
+
+    // Function to update goal tables based on the selected month
+    function updateGoalTables(month) {
+        const goals = {
+            January: { BranchGoal: 200, employeeGoal: 120, BranchReviews: 150, employeeReviews: 90 },
+            February: { BranchGoal: 220, employeeGoal: 130, BranchReviews: 180, employeeReviews: 100 },
+            March: { BranchGoal: 250, employeeGoal: 150, BranchReviews: 210, employeeReviews: 120 },
+            // Add other months here...
+        };
+
+        const goalData = goals[month];
+        
+        const BranchGoalTable = document.getElementById("Branch-goal-table");
+        BranchGoalTable.innerHTML = `
+            <tr>
+                <td>${goalData.BranchGoal}</td>
+                <td>${goalData.BranchReviews}</td>
+                <td>${(goalData.BranchReviews / goalData.BranchGoal * 100).toFixed(2)}%</td>
+            </tr>
+        `;
+
+        const employeeGoalTable = document.getElementById("employee-goal-table");
+        employeeGoalTable.innerHTML = `
+            <tr>
+                <td>${goalData.employeeGoal}</td>
+                <td>${goalData.employeeReviews}</td>
+                <td>${(goalData.employeeReviews / goalData.employeeGoal * 100).toFixed(2)}%</td>
+            </tr>
+        `;
+        
+        updateGraphs(month);
+    }
+
+    // Function to update graphs based on the selected month
+    function updateGraphs(month) {
+        const data = {
+            January: {
+                branches: ['Downtown', 'Uptown', 'Westside', 'Eastside', 'Central'],
+                reviews: [80, 75, 70, 65, 60],
+                goals: [100, 90, 85, 80, 75]
+            },
+            February: {
+                branches: ['Downtown', 'Uptown', 'Westside', 'Eastside', 'Central'],
+                reviews: [85, 78, 72, 68, 62],
+                goals: [110, 95, 90, 85, 80]
+            },
+            // Add other months here...
+        };
+
+        const monthData = data[month];
+
+        const branchPerformanceChart = document.getElementById('branchPerformanceChart').getContext('2d');
+        new Chart(branchPerformanceChart, {
+            type: 'bar',
+            data: {
+                labels: monthData.branches,
+                datasets: [{
+                    label: 'Reviews Achieved',
+                    data: monthData.reviews,
+                    backgroundColor: '#3498db',
+                    borderColor: '#2980b9',
+                    borderWidth: 1
+                }, {
+                    label: 'Branch Goal',
+                    data: monthData.goals,
+                    backgroundColor: '#95a5a6',
+                    borderColor: '#7f8c8d',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        const employeePerformanceChart = document.getElementById('employeePerformanceChart').getContext('2d');
+        new Chart(employeePerformanceChart, {
+            type: 'bar',
+            data: {
+                labels: ['Employee 1', 'Employee 2', 'Employee 3', 'Employee 4', 'Employee 5'],
+                datasets: [{
+                    label: 'Reviews Achieved',
+                    data: [30, 28, 25, 22, 20], // Dynamic based on the selected month
+                    backgroundColor: '#2980b9',
+                    borderColor: '#3498db',
+                    borderWidth: 1
+                }, {
+                    label: 'Employee Goal',
+                    data: [40, 40, 40, 40, 40], // Dynamic based on the selected month
+                    backgroundColor: '#95a5a6',
+                    borderColor: '#7f8c8d',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    // View more branches (dummy function)
+    function viewMoreBranches() {
+        alert("View more branches screen");
+    }
+
+    // View more employees (dummy function)
+    function viewMoreEmployees() {
+        alert("View more employees screen");
+    }
+
+    // Export Report (Dummy function)
+    function exportReport() {
+        alert("Report exported successfully!");
+    }
+
+    // Initialize on load
+    window.onload = () => {
+        showReport();  // Show initial report with default month (January)
+    }
+</script>
+
+</body>
+</html>
