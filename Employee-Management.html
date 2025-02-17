@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management Admin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .search-bar, .filter, .add-user {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-bar input, .filter select, .add-user button {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .search-bar input {
+            width: 60%;
+        }
+
+        .filter select {
+            width: auto;
+        }
+
+        .add-user button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .add-user button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            cursor: pointer;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        td button {
+            padding: 6px 10px;
+            margin: 2px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+
+        td button.edit {
+            background-color: #ffc107;
+            color: white;
+        }
+
+        td button.toggle-status {
+            background-color: #28a745;
+            color: white;
+        }
+
+        td button.toggle-status.deactivated {
+            background-color: #dc3545;
+        }
+
+        td button.view-details {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .pagination {
+            text-align: center;
+        }
+
+        .pagination button {
+            padding: 8px 16px;
+            margin: 0 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+        .pagination button:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 500px;
+        }
+
+        .modal-content input, .modal-content select, .modal-content button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .modal-content button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+
+        .modal-content button:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            .search-bar input, .filter select, .add-user button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            .modal-content {
+                width: 90%;
+            }
+        }
+    </style>
+    <script>
+        // Dummy JavaScript functions for the UI actions
+        function searchUsers() {
+            // Functionality for search
+        }
+
+        function filterByRole() {
+            // Functionality for filtering by role
+        }
+
+        function sortTable(column) {
+            // Sorting functionality
+        }
+
+        function selectAllUsers() {
+            // Functionality to select all users
+        }
+
+        function openAddUserModal() {
+            document.getElementById("addUserModal").style.display = "block";
+        }
+
+        function closeAddUserModal() {
+            document.getElementById("addUserModal").style.display = "none";
+        }
+
+        function toggleStatus(button) {
+            if (button.classList.contains('deactivated')) {
+                button.classList.remove('deactivated');
+                button.textContent = 'Deactivate';
+            } else {
+                button.classList.add('deactivated');
+                button.textContent = 'Activate';
+            }
+        }
+
+        function viewDetails(userId) {
+            // Functionality for viewing user details (Modal, etc.)
+            //alert("View details of user: " + userId);
+            //View-Employee.html
+            const editButton = document.querySelector('.view-details');
+            editButton.addEventListener('click', function() {
+            window.open('View-Employee.html', '_blank');
+            });
+
+        }
+
+        function prevPage() {
+            // Functionality for pagination (previous page)
+        }
+
+        function nextPage() {
+            // Functionality for pagination (next page)
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>User Management</h1>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <input type="text" id="search" placeholder="Search by name or email..." oninput="searchUsers()">
+        </div>
+
+        <!-- Role-Based Filtering -->
+        <div class="filter">
+            <select id="roleFilter" onchange="filterByRole()">
+                <option value="">Filter by Role</option>
+                <option value="Admin">Admin</option>
+                <option value="Branch Admin">Branch Admin</option>
+                <option value="Receptionist">Receptionist</option>
+                <option value="Barber">Barber</option>
+                <option value="Technician">Technician</option>
+            </select>
+        </div>
+
+        <!-- Add New User Button -->
+        <div class="add-user">
+            <button onclick="openAddUserModal()">Add New User</button>
+        </div>
+
+        <!-- User List Table -->
+        <table id="userTable">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" onclick="selectAllUsers()"></th>
+                    <th onclick="sortTable('name')">Name</th>
+                    <th onclick="sortTable('email')">Email</th>
+                    <th onclick="sortTable('role')">Role</th>
+                    <th onclick="sortTable('status')">Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Sample Employee Data -->
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>John Doe</td>
+                    <td>johndoe@example.com</td>
+                    <td>Admin</td>
+                    <td>Active</td>
+                    <td>
+                        <button class="toggle-status" onclick="toggleStatus(this)">Deactivate</button>
+                        <button class="view-details" onclick="viewDetails(1)">View Details</button>
+                        <button class="edit">Edit</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>Jane Smith</td>
+                    <td>janesmith@example.com</td>
+                    <td>Branch Admin</td>
+                    <td>Inactive</td>
+                    <td>
+                        <button class="toggle-status deactivated" onclick="toggleStatus(this)">Activate</button>
+                        <button class="view-details" onclick="viewDetails(2)">View Details</button>
+                        <button class="edit">Edit</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>Mark Brown</td>
+                    <td>markbrown@example.com</td>
+                    <td>Receptionist</td>
+                    <td>Active</td>
+                    <td>
+                        <button class="toggle-status" onclick="toggleStatus(this)">Deactivate</button>
+                        <button class="view-details" onclick="viewDetails(3)">View Details</button>
+                        <button class="edit">Edit</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>Alice Johnson</td>
+                    <td>alicejohnson@example.com</td>
+                    <td>Barber</td>
+                    <td>Active</td>
+                    <td>
+                        <button class="toggle-status" onclick="toggleStatus(this)">Deactivate</button>
+                        <button class="view-details" onclick="viewDetails(4)">View Details</button>
+                        <button class="edit">Edit</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>Michael White</td>
+                    <td>michaelwhite@example.com</td>
+                    <td>Technician</td>
+                    <td>Inactive</td>
+                    <td>
+                        <button class="toggle-status deactivated" onclick="toggleStatus(this)">Activate</button>
+                        <button class="view-details" onclick="viewDetails(5)">View Details</button>
+                        <button class="edit">Edit</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <button onclick="prevPage()">Previous</button>
+            <span id="pageNumber">1</span>
+            <button onclick="nextPage()">Next</button>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div id="addUserModal" class="modal">
+        <div class="modal-content">
+            <h2>Add New User</h2>
+            <form id="addUserForm">
+                <label for="userName">Name:</label>
+                <input type="text" id="userName" required>
+                
+                <label for="userEmail">Email:</label>
+                <input type="email" id="userEmail" required>
+                
+                <label for="userPassword">Password:</label>
+                <input type="password" id="userPassword" required>
+                
+                <label for="userRole">Role:</label>
+                <select id="userRole">
+                    <option value="Admin">Admin</option>
+                    <option value="Branch Admin">Branch Admin</option>
+                    <option value="Receptionist">Receptionist</option>
+                    <option value="Barber">Barber</option>
+                    <option value="Technician">Technician</option>
+                </select>
+                
+                <label for="userStatus">Status:</label>
+                <select id="userStatus">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+                
+                <button type="submit">Save User</button>
+            </form>
+            <button onclick="closeAddUserModal()">Close</button>
+        </div>
+    </div>
+    <script>
+          const editButton = document.querySelector('.edit');
+
+editButton.addEventListener('click', function() {
+  window.open('Edit-Employee.html', '_blank');
+});
+
+    </script>
+</body>
+</html>
