@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Employee</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 500px;
+            max-width: 90%;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-image-container {
+            width: 150px;
+            height: 150px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 0 auto;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px; /* Add some spacing above the button */
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 400px) {
+            .container {
+                width: 95%;
+            }
+        }
+
+        /* Styles for better mobile experience */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            p {
+                font-size: 0.95rem; /* Slightly smaller font for paragraphs */
+            }
+
+            strong {
+                font-size: 0.95rem; /* Slightly smaller font for labels */
+            }
+
+            h2 {
+                font-size: 1.2rem;
+            }
+
+            button {
+                font-size: 0.9rem;
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>View Employee</h2>
+        <div id="employeeData">
+            <div class="profile-image-container">
+                <img id="profileImageView" class="profile-image" src="placeholder.jpg" alt="Profile Image">
+            </div>
+            <p><strong>First Name:</strong> <span id="firstNameView"></span></p>
+            <p><strong>Middle Name:</strong> <span id="middleNameView"></span></p>
+            <p><strong>Last Name:</strong> <span id="lastNameView"></span></p>
+            <p><strong>Personal Email:</strong> <span id="personalEmailView"></span></p>
+            <p><strong>Work Email:</strong> <span id="workEmailView"></span></p>
+            <p><strong>Job Title:</strong> <span id="jobTitleView"></span></p>
+            <p><strong>Employee Type:</strong> <span id="employeeTypeView"></span></p>
+            <p><strong>Company Employee ID:</strong> <span id="companyEmployeeIDView"></span></p>
+            <p><strong>Start Date:</strong> <span id="startDateView"></span></p>
+            <p><strong>Created Date:</strong> <span id="createdDateView"></span></p>
+            <p><strong>Updated Date:</strong> <span id="updatedDateView"></span></p>
+            <p><strong>Personal Phone Number Prefix:</strong> <span id="personalPhonePrefixView"></span></p>
+            <p><strong>Personal Phone Number:</strong> <span id="personalPhoneView"></span></p>
+            <p><strong>Personal PIN:</strong> <span id="personalPin"></span></p>
+            <p><strong>Known As:</strong> <span id="knownAsView"></span></p>
+            <p><strong>Birth Date:</strong> <span id="birthDateView"></span></p>
+            <p><strong>Gender:</strong> <span id="genderView"></span></p>
+            <p><strong>Marital Status:</strong> <span id="maritalStatusView"></span></p>
+            <p><strong>Religion:</strong> <span id="religionView"></span></p>
+            <p><strong>Country of Origin:</strong> <span id="countryOfOriginView"></span></p>
+            <p><strong>Work Phone Number Prefix:</strong> <span id="workPhonePrefixView"></span></p>
+            <p><strong>Work Phone Number:</strong> <span id="workPhoneView"></span></p>
+            <p><strong>Work Mobile Number Prefix:</strong> <span id="workMobilePrefixView"></span></p>
+            <p><strong>Work Mobile Number:</strong> <span id="workMobileView"></span></p>
+            <p><strong>Work Office Phone Number:</strong> <span id="workOfficePhoneView"></span></p>
+            <p><strong>Work Mobile Phone Number:</strong> <span id="workMobilePhoneView"></span></p>
+            <p><strong>Role:</strong> <span id="roleView"></span></p>
+            <p><strong>Status:</strong> <span id="statusView"></span></p>
+            <p><strong>Salary:</strong> <span id="salaryView"></span></p>
+            <p><strong>Tips:</strong> <span id="tipsView"></span></p>
+            <p><strong>Commission:</strong> <span id="commissionView"></span></p>
+            <button type="button" onclick="window.location.href='user_management.html'">Back to Employee List</button>
+        </div>
+    </div>
+
+    <script>
+        function populateEmployeeData(employeeData) {
+            document.getElementById('profileImageView').src = employeeData.image || 'placeholder.jpg';
+            document.getElementById('firstNameView').textContent = employeeData.firstName || '';
+            document.getElementById('middleNameView').textContent = employeeData.middleName || '';
+            document.getElementById('lastNameView').textContent = employeeData.lastName || '';
+            document.getElementById('personalEmailView').textContent = employeeData.personalEmail || '';
+            document.getElementById('workEmailView').textContent = employeeData.workEmail || '';
+            document.getElementById('jobTitleView').textContent = employeeData.jobTitle || '';
+            document.getElementById('employeeTypeView').textContent = employeeData.employeeType || '';
+            document.getElementById('companyEmployeeIDView').textContent = employeeData.companyEmployeeID || '';
+            document.getElementById('startDateView').textContent = employeeData.startDate || '';
+            document.getElementById('createdDateView').textContent = employeeData.createdDate || '';
+            document.getElementById('updatedDateView').textContent = employeeData.updatedDate || '';
+            document.getElementById('personalPhonePrefixView').textContent = employeeData.personalPhonePrefix || '';
+            document.getElementById('personalPhoneView').textContent = employeeData.personalPhone || '';
+            document.getElementById('personalPin').textContent = employeeData.personalPin || '';
+            document.getElementById('knownAsView').textContent = employeeData.knownAs || '';
+            document.getElementById('birthDateView').textContent = employeeData.birthDate || '';
+            document.getElementById('genderView').textContent = employeeData.gender || '';
+            document.getElementById('maritalStatusView').textContent = employeeData.maritalStatus || '';
+            document.getElementById('religionView').textContent = employeeData.religion || '';
+            document.getElementById('countryOfOriginView').textContent = employeeData.countryOfOrigin || '';
+            document.getElementById('workPhonePrefixView').textContent = employeeData.workPhonePrefix || '';
+            document.getElementById('workPhoneView').textContent = employeeData.workPhone || '';
+            document.getElementById('workMobilePrefixView').textContent = employeeData.workMobilePrefix || '';
+            document.getElementById('workMobileView').textContent = employeeData.workMobile || '';
+            document.getElementById('workOfficePhoneView').textContent = employeeData.workOfficePhone || '';
+            document.getElementById('workMobilePhoneView').textContent = employeeData.workMobilePhone || '';
+            document.getElementById('roleView').textContent = employeeData.role || '';
+            document.getElementById('status).textContent = employeeData.status || '';
+            document.getElementById('salaryView').textContent = employeeData.salary || '';
+            document.getElementById('tipsView').textContent = employeeData.tips || '';
+            document.getElementById('commissionView').textContent = employeeData.commission || '';
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const employeeIdFromUrl = urlParams.get('id');
+
+        if (employeeIdFromUrl) {
+            fetch('/api/employees/' + employeeIdFromUrl)
+                .then(response => response.json())
+                .then(employeeData => populateEmployeeData(employeeData))
+                .catch(error => {
+                    console.error("Error fetching employee data:", error);
+                    // Handle error, maybe display a message on the page
+                    document.getElementById('employeeData').innerHTML = "<p>Error loading employee details.</p>";
+                });
+        } else {
+            console.warn("No employee ID provided in URL.");
+            document.getElementById('employeeData').innerHTML = "<p>No employee ID specified.</p>";
+        }
+    </script>
+</body>
+</html>
