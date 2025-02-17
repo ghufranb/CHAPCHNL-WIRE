@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Employee</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 500px;
+            max-width: 90%;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        input[type="password"],
+        input[type="file"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .button-group {
+            text-align: center;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 400px) {
+            .container {
+                width: 95%;
+            }
+        }
+
+        /* Styles for better mobile experience */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            label {
+                font-size: 0.9rem;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            input[type="tel"],
+            input[type="date"],
+            input[type="password"],
+            select {
+                font-size: 0.95rem;
+                padding: 8px;
+            }
+
+            button {
+                font-size: 0.9rem;
+                padding: 8px 12px;
+            }
+
+            h2 {
+                font-size: 1.2rem;
+            }
+        }
+
+        .profile-image-container {
+            width: 150px; /* Adjust size as needed */
+            height: 150px;
+            border-radius: 5px; /* Slightly rounded corners */
+            overflow: hidden; /* Hide any image overflow */
+            margin: 0 auto; /* Center the image */
+            margin-bottom: 10px; /* Space below the image */
+            border: 1px solid #ccc; /* Add a light border */
+            display: flex; /* Use flexbox for centering */
+            justify-content: center; /* Horizontally center */
+            align-items: center; /* Vertically center */
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Maintain aspect ratio and cover container */
+        }
+
+        .image-upload {
+            margin-top: 5px; /* Space above the upload button */
+            text-align: center; /* Center the button */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Edit Employee</h2>
+        <form id="editEmployeeForm">
+                <div class="profile-image-container">
+                    <img id="profileImageDisplay" class="profile-image" src="placeholder.jpg" alt="Profile Image">  </div>
+                <div class="image-upload">
+                    <input type="file" id="image" name="image" accept="image/*">
+                </div>
+            <input type="hidden" id="employeeId" name="employeeId">
+
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" required>
+
+            <label for="middleName">Middle Name:</label>
+            <input type="text" id="middleName" name="middleName">
+
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" required>
+
+            <label for="personalEmail">Personal Email:</label>
+            <input type="email" id="personalEmail" name="personalEmail">
+
+            <label for="workEmail">Work Email:</label>
+            <input type="email" id="workEmail" name="workEmail">
+
+            <label for="jobTitle">Job Title:</label>
+            <input type="text" id="jobTitle" name="jobTitle">
+
+            <label for="employeeType">Employee Type:</label>
+            <input type="text" id="employeeType" name="employeeType">
+
+            <label for="personalPIN">Personal PIN:</label>
+            <input type="password" id="personalPIN" name="personalPIN">
+
+            <label for="companyEmployeeID">Company Employee ID:</label>
+            <input type="text" id="companyEmployeeID" name="companyEmployeeID">
+
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" name="startDate">
+
+            <label for="createdDate">Created Date:</label>
+            <input type="date" id="createdDate" name="createdDate">
+
+            <label for="updatedDate">Updated Date:</label>
+            <input type="date" id="updatedDate" name="updatedDate">
+
+            <label for="personalPhonePrefix">Personal Phone Number Prefix:</label>
+            <input type="text" id="personalPhonePrefix" name="personalPhonePrefix">
+
+            <label for="personalPhone">Personal Phone Number:</label>
+            <input type="tel" id="personalPhone" name="personalPhone">
+
+            <label for="knownAs">Known As:</label>
+            <input type="text" id="knownAs" name="knownAs">
+
+            <label for="birthDate">Birth Date:</label>
+            <input type="date" id="birthDate" name="birthDate">
+
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label for="maritalStatus">Marital Status:</label>
+            <select id="maritalStatus" name="maritalStatus">
+                <option value="Single">Single</option>
+                <option value="Married">Married</option>
+                <option value="Divorced">Divorced</option>
+                <option value="Widowed">Widowed</option>
+            </select>
+
+            <label for="religion">Religion:</label>
+            <input type="text" id="religion" name="religion">
+
+            <label for="countryOfOrigin">Country of Origin:</label>
+            <input type="text" id="countryOfOrigin" name="countryOfOrigin">
+
+            <label for="workPhonePrefix">Work Phone Number Prefix:</label>
+            <input type="text" id="workPhonePrefix" name="workPhonePrefix">
+
+            <label for="workPhone">Work Phone Number:</label>
+            <input type="tel" id="workPhone" name="workPhone">
+
+            <label for="workMobilePrefix">Work Mobile Number Prefix:</label>
+            <input type="text" id="workMobilePrefix" name="workMobilePrefix">
+
+            <label for="workMobile">Work Mobile Number:</label>
+            <input type="tel" id="workMobile" name="workMobile">
+
+            <label for="image">Image:</label>
+            <input type="file" id="image" name="image">
+
+            <label for="workOfficePhone">Work Office Phone Number:</label>
+            
+            <input type="tel" id="workOfficePhone" name="workOfficePhone">
+
+            <label for="workMobilePhone">Work Mobile Phone Number:</label>
+            <input type="tel" id="workMobilePhone" name="workMobilePhone">
+
+            <label for="role">Role:</label>
+            <select id="role" name="role">
+                <option value="Admin">Admin</option>
+                <option value="Branch Admin">Branch Admin</option>
+                <option value="Receptionist">Receptionist</option>
+                <option value="Barber">Barber</option>
+                <option value="Technician">Technician</option>
+            </select>
+
+            <label for="status">Status:</label>
+            <select id="status" name="status">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+            </select>
+
+            <div class="button-group">
+                <button type="submit">Save Changes</button>
+                <button type="button" onclick="window.location.href='user_management.html'">Cancel</button>
+            </div>
+
+            <div id="errorMessage" class="error-message"></div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('editEmployeeForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const employeeId = document.getElementById('employeeId').value;
+            const firstName = document.getElementById('firstName').value;
+            const middleName = document.getElementById('middleName').value;
+            const lastName = document.getElementById('lastName').value;
+            const personalEmail = document.getElementById('personalEmail').value;
+            const workEmail = document.getElementById('workEmail').value;
+            const jobTitle = document.getElementById('jobTitle').value;
+            const employeeType = document.getElementById('employeeType').value;
+            const personalPIN = document.getElementById('personalPIN').value;
+            const companyEmployeeID = document.getElementById('companyEmployeeID').value;
+            const startDate = document.getElementById('startDate').value;
+            const createdDate = document.getElementById('createdDate').value;
+            const updatedDate = document.getElementById('updatedDate').value;
+            const personalPhonePrefix = document.getElementById('personalPhonePrefix').value;
+            const personalPhone = document.getElementById('personalPhone').value;
+            const knownAs = document.getElementById('knownAs').value;
+            const birthDate = document.getElementById('birthDate').value;
+            const gender = document.getElementById('gender').value;
+            const maritalStatus = document.getElementById('maritalStatus').value;
+            const religion = document.getElementById('religion').value;
+            const countryOfOrigin = document.getElementById('countryOfOrigin').value;
+            const workPhonePrefix = document.getElementById('workPhonePrefix').value;
+            const workPhone = document.getElementById('workPhone').value;
+            const workMobilePrefix = document.getElementById('workMobilePrefix').value;
+            const workMobile = document.getElementById('workMobile').value;
+            const image = document.getElementById('image').files[0];
+            const workOfficePhone = document.getElementById('workOfficePhone').value;
+            const workMobilePhone = document.getElementById('workMobilePhone').value;
+            const role = document.getElementById('role').value;
+            const status = document.getElementById('status').value;
+
+            if (!firstName || !lastName || !personalEmail || !workEmail) {
+                document.getElementById('errorMessage').textContent = "First Name, Last Name, Personal Email, and Work Email are required.";
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('employeeId', employeeId);
+            formData.append('firstName', firstName);
+            formData.append('middleName', middleName);
+            formData.append('lastName', lastName);
+            formData.append('personalEmail', personalEmail);
+            formData.append('workEmail', workEmail);
+            formData.append('jobTitle', jobTitle);
+            formData.append('employeeType', employeeType);
+            formData.append('personalPIN', personalPIN);
+            formData.append('companyEmployeeID', companyEmployeeID);
+            formData.append('startDate', startDate);
+            formData.append('createdDate', createdDate);
+            formData.append('updatedDate', updatedDate);
+            formData.append('personalPhonePrefix', personalPhonePrefix);
+            formData.append('personalPhone', personalPhone);
+            formData.append('knownAs', knownAs);
+            formData.append('birthDate', birthDate);
+            formData.append('gender', gender);
+            formData.append('maritalStatus', maritalStatus);
+            formData.append('religion', religion);
+            formData.append('countryOfOrigin', countryOfOrigin);
+            formData.append('workPhonePrefix', workPhonePrefix);
+            formData.append('workPhone', workPhone);
+            formData.append('workMobilePrefix', workMobilePrefix);
+            formData.append('workMobile', workMobile);
+            formData.append('image', image);
+            formData.append('workOfficePhone', workOfficePhone);
+            formData.append('workMobilePhone', workMobilePhone);
+            formData.append('role', role);
+            formData.append('status', status);
+
+            fetch('/api/employees/' + employeeId, {
+                method: 'PUT',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Employee updated:', data);
+                window.location.href = 'user_management.html';
+            })
+            .catch(error => {
+                console.error('Error updating employee:', error);
+                document.getElementById('errorMessage').textContent = "An error occurred. Please try again later.";
+            });
+        });
+
+        function populateForm(employeeData) {
+            document.getElementById('employeeId').value = employeeData.id;
+            document.getElementById('firstName').value = employeeData.firstName;
+            document.getElementById('middleName').value = employeeData.middleName;
+            document.getElementById('lastName').value = employeeData.lastName;
+            document.getElementById('personalEmail').value = employeeData.personalEmail;
+            document.getElementById('workEmail').value = employeeData.workEmail;
+            document.getElementById('jobTitle').value = employeeData.jobTitle;
+            document.getElementById('employeeType').value = employeeData.employeeType;
+            document.getElementById('personalPIN').value = employeeData.personalPIN;
+            document.getElementById('companyEmployeeID').value = employeeData.companyEmployeeID;
+            document.getElementById('startDate').value = employeeData.startDate;
+            document.getElementById('createdDate').value = employeeData.createdDate;
+            document.getElementById('updatedDate').value = employeeData.updatedDate;
+            document.getElementById('personalPhonePrefix').value = employeeData.personalPhonePrefix;
+            document.getElementById('personalPhone').value = employeeData.personalPhone;
+            document.getElementById('knownAs').value = employeeData.knownAs;
+            document.getElementById('birthDate').value = employeeData.birthDate;
+            document.getElementById('gender').value = employeeData.gender;
+            document.getElementById('maritalStatus').value = employeeData.maritalStatus;
+            document.getElementById('religion').value = employeeData.religion;
+            document.getElementById('countryOfOrigin').value = employeeData.countryOfOrigin;
+            document.getElementById('workPhonePrefix').value = employeeData.workPhonePrefix;
+            document.getElementById('workPhone').value = employeeData.workPhone;
+            document.getElementById('workMobilePrefix').value = employeeData.workMobilePrefix;
+            document.getElementById('workMobile').value = employeeData.workMobile;
+            document.getElementById('workOfficePhone').value = employeeData.workOfficePhone;
+            document.getElementById('workMobilePhone').value = employeeData.workMobilePhone;
+
+            const roleSelect = document.getElementById('role');
+            for (let i = 0; i < roleSelect.options.length; i++) {
+                if (roleSelect.options[i].value === employeeData.role) {
+                    roleSelect.selectedIndex = i;
+                    break;
+                }
+            }
+
+            const statusSelect = document.getElementById('status');
+            for (let i = 0; i < statusSelect.options.length; i++) {
+                if (statusSelect.options[i].value === employeeData.status) {
+                    statusSelect.selectedIndex = i;
+                    break;
+                }
+            }
+        }
+
+        const sampleEmployeeData = {
+            id: 1,
+            firstName: "John",
+            middleName: "D",
+            lastName: "Doe",
+            personalEmail: "john.doe@example.com",
+            workEmail: "johndoe@company.com",
+            jobTitle: "Software Engineer",
+            employeeType: "Full-time",
+            personalPIN: "123", 
+            companyEmployeeID: "E12345",
+            startDate: "2023-01-15",
+            createdDate: "2023-01-10",
+            updatedDate: "2023-10-26",
+            personalPhonePrefix: "+1",
+            personalPhone: "555-123-4567",
+            knownAs: "Johnny",
+            birthDate: "1990-05-20",
+            gender: "Male",
+            maritalStatus: "Single",
+            religion: "None",
+            countryOfOrigin: "USA",
+            workPhonePrefix: "+1",
+            workPhone: "555-987-6543",
+            workMobilePrefix: "+1",
+            workMobile: "555-555-5555",
+            image: "profile.jpg",
+            workOfficePhone: "555-111-2222",
+            workMobilePhone: "555-333-4444",
+            role: "Admin",
+            status: "Active"
+        };
+
+        populateForm(sampleEmployeeData);
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const employeeIdFromUrl = urlParams.get('id');
+
+        if (employeeIdFromUrl) {
+            fetch('/api/employees/' + employeeIdFromUrl)
+                .then(response => response.json())
+                .then(employeeData => populateForm(employeeData))
+                .catch(error => {
+                    console.error("Error fetching employee data:", error);
+                    document.getElementById('errorMessage').textContent = "Error loading employee data.";
+                });
+        } else {
+            console.warn("No employee ID provided in URL.");
+        }
+
+        const imageInput = document.getElementById('image');
+        const profileImageDisplay = document.getElementById('profileImageDisplay');
+
+        imageInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    profileImageDisplay.src = e.target.result;
+                }
+
+                reader.readAsDataURL(file);
+            } else {
+                profileImageDisplay.src = "placeholder.jpg"; // Reset to placeholder if no file selected
+            }
+        });
+
+
+        function populateForm(employeeData) {
+            // ... (other populateForm code) ...
+
+            // Set profile image (if available)
+            if (employeeData.image) {
+                profileImageDisplay.src = employeeData.image;
+            } else {
+                profileImageDisplay.src = "placeholder.jpg"; // Use placeholder if no image in data
+            }
+        }
+    </script>
+</body>
+</html>
