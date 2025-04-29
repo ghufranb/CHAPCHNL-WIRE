@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Time Sheet Report</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #2c3e50;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+
+    .toolbar .filters,
+    .toolbar .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .toolbar select,
+    .toolbar input,
+    .toolbar button {
+      padding: 0.5rem 0.75rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .toolbar button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .toolbar button:hover {
+      background-color: #0056b3;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 12px 10px;
+      border-bottom: 1px solid #eee;
+      text-align: center;
+    }
+
+    th {
+      background-color: #007bff;
+      color: white;
+      position: sticky;
+      top: 0;
+    }
+
+    .leave-type {
+      color: #dc3545;
+      font-weight: bold;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin: 1.5rem 0;
+      gap: 0.5rem;
+    }
+
+    .pagination button {
+      padding: 8px 12px;
+      font-size: 1rem;
+      border: 1px solid #007bff;
+      border-radius: 4px;
+      background: white;
+      color: #007bff;
+      cursor: pointer;
+    }
+
+    .pagination button.active,
+    .pagination button:hover {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .summary {
+      background-color: #ffffff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+      max-width: 500px;
+      margin: auto;
+      margin-top: 2rem;
+    }
+
+    .summary h3 {
+      margin-top: 0;
+      color: #2c3e50;
+    }
+
+    @media (max-width: 768px) {
+      .toolbar {
+        flex-direction: column;
+      }
+
+      .toolbar .filters,
+      .toolbar .actions {
+        flex-direction: column;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<h2>Time Sheet Report</h2>
+
+<div class="toolbar">
+  <div class="filters">
+    <select>
+      <option value="all">All Branches</option>
+      <option value="new-york">New York</option>
+      <option value="dubai">Dubai</option>
+    </select>
+    <select>
+      <option value="all">All Employees</option>
+      <option value="e001">John Doe</option>
+      <option value="e002">Fatima Ali</option>
+    </select>
+    <input type="date" />
+    <input type="date" />
+    <input type="text" placeholder="Search..." />
+  </div>
+  <div class="actions">
+    <button>Download PDF</button>
+    <button>Download CSV</button>
+  </div>
+</div>
+
+<table id="timesheet-table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Branch</th>
+      <th>Employee Name</th>
+      <th>Employee ID</th>
+      <th>Check In</th>
+      <th>Check Out</th>
+      <th>Hours Worked</th>
+      <th>Leave Type</th>
+      <th>Region</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<div class="pagination" id="pagination"></div>
+
+<div class="summary">
+  <h3>Summary</h3>
+  <p><strong>Total Days:</strong> 25</p>
+  <p><strong>Total Hours Worked:</strong> 180</p>
+  <p><strong>Sick Leave:</strong> 3 days</p>
+  <p><strong>Other Leave:</strong> 1 day</p>
+  <p><strong>Regions Covered:</strong> US, UAE</p>
+</div>
+
+<script>
+  const data = Array.from({ length: 100 }, (_, i) => ({
+    date: `2025-04-${(i % 30 + 1).toString().padStart(2, '0')}`,
+    branch: i % 2 === 0 ? "New York" : "Dubai",
+    name: i % 2 === 0 ? "John Doe" : "Fatima Ali",
+    id: i % 2 === 0 ? "E001" : "E002",
+    checkIn: i % 5 === 0 ? "-" : "09:00",
+    checkOut: i % 5 === 0 ? "-" : "17:00",
+    hours: i % 5 === 0 ? 0 : 8,
+    leave: i % 5 === 0 ? "Sick Leave" : "-",
+    region: i % 2 === 0 ? "US" : "UAE"
+  }));
+
+  const rowsPerPage = 25;
+  let currentPage = 1;
+
+  function renderTable() {
+    const tbody = document.querySelector("#timesheet-table tbody");
+    tbody.innerHTML = "";
+
+    const start = (currentPage - 1) * rowsPerPage;
+    const paginatedData = data.slice(start, start + rowsPerPage);
+
+    for (const row of paginatedData) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${row.date}</td>
+        <td>${row.branch}</td>
+        <td>${row.name}</td>
+        <td>${row.id}</td>
+        <td>${row.checkIn}</td>
+        <td>${row.checkOut}</td>
+        <td>${row.hours}</td>
+        <td class="${row.leave !== '-' ? 'leave-type' : ''}">${row.leave}</td>
+        <td>${row.region}</td>
+      `;
+      tbody.appendChild(tr);
+    }
+  }
+
+  function renderPagination() {
+    const pagination = document.getElementById("pagination");
+    pagination.innerHTML = "";
+    const pageCount = Math.ceil(data.length / rowsPerPage);
+
+    for (let i = 1; i <= pageCount; i++) {
+      const btn = document.createElement("button");
+      btn.textContent = i;
+      btn.className = i === currentPage ? "active" : "";
+      btn.onclick = () => {
+        currentPage = i;
+        renderTable();
+        renderPagination();
+      };
+      pagination.appendChild(btn);
+    }
+  }
+
+  renderTable();
+  renderPagination();
+</script>
+
+</body>
+</html>
